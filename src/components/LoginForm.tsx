@@ -108,7 +108,7 @@ export default function LoginForm({ panel = "admin" }: LoginFormProps) {
 
         <p className="text-center text-sm text-slate-500 mt-6">
           <a href="/" className="text-amber-600 hover:text-amber-700 font-semibold hover:underline">
-            ← Volver al formulario
+            ← Volver al inicio
           </a>
         </p>
         {panel === "admin" && (

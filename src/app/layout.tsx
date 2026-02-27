@@ -13,8 +13,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Reportar Incidencia - Mantenimiento",
-  description: "Sistema de gestión de incidencias de mantenimiento",
+  title: "EdmondVibes - Mantenimiento",
+  description: "Plataforma de gestión de incidencias de mantenimiento",
 };
 
 export default function RootLayout({
