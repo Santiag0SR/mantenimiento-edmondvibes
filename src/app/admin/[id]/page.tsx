@@ -24,7 +24,7 @@ export default async function IncidenciaPage({ params }: Props) {
   }
 
   return (
-    <main className="min-h-screen py-6 px-4">
+    <main className="min-h-screen bg-[var(--surface)] py-6 px-4">
       <div className="max-w-2xl mx-auto">
         <IncidenciaDetail incidencia={incidencia} backUrl="/admin" />
       </div>

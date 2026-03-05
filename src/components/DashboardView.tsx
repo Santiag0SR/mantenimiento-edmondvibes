@@ -173,15 +173,15 @@ export default function DashboardView({ incidencias }: DashboardViewProps) {
           <div className="text-2xl font-bold text-emerald-600">{stats.completadas}</div>
           <div className="text-xs text-emerald-700 font-medium">Completadas</div>
         </div>
-        <div className="bg-gradient-to-br from-slate-50 to-slate-100/50 border border-slate-200 rounded-xl p-4 text-center">
-          <div className="text-2xl font-bold text-slate-600">{stats.total}</div>
-          <div className="text-xs text-slate-600 font-medium">Total</div>
+        <div className="bg-gradient-to-br from-stone-50 to-stone-100/50 border border-[var(--border)] rounded-xl p-4 text-center">
+          <div className="text-2xl font-bold text-[var(--text-secondary)]">{stats.total}</div>
+          <div className="text-xs text-[var(--text-secondary)] font-medium">Total</div>
         </div>
       </div>
 
       {/* Métricas clave */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div className="bg-white rounded-xl border border-slate-200 p-4">
+        <div className="bg-[var(--surface-raised)] rounded-xl border border-[var(--border)] p-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
               <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,14 +189,14 @@ export default function DashboardView({ incidencias }: DashboardViewProps) {
               </svg>
             </div>
             <div>
-              <div className="text-2xl font-bold text-slate-800">
+              <div className="text-2xl font-bold text-[var(--text)]">
                 {stats.tiempoPromedioResolucion.toFixed(1)} días
               </div>
-              <div className="text-sm text-slate-500">Tiempo promedio resolución</div>
+              <div className="text-sm text-[var(--text-muted)]">Tiempo promedio resolución</div>
             </div>
           </div>
         </div>
-        <div className="bg-white rounded-xl border border-slate-200 p-4">
+        <div className="bg-[var(--surface-raised)] rounded-xl border border-[var(--border)] p-4">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
               <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -204,10 +204,10 @@ export default function DashboardView({ incidencias }: DashboardViewProps) {
               </svg>
             </div>
             <div>
-              <div className="text-2xl font-bold text-slate-800">
+              <div className="text-2xl font-bold text-[var(--text)]">
                 {stats.costoTotal.toLocaleString("es-ES", { minimumFractionDigits: 2 })} €
               </div>
-              <div className="text-sm text-slate-500">Costo total reparaciones</div>
+              <div className="text-sm text-[var(--text-muted)]">Costo total reparaciones</div>
             </div>
           </div>
         </div>
@@ -240,9 +240,9 @@ export default function DashboardView({ incidencias }: DashboardViewProps) {
       )}
 
       {/* Gráfico de incidencias por mes */}
-      <div className="bg-white rounded-xl border border-slate-200 p-4">
-        <h3 className="font-semibold text-slate-800 mb-4 flex items-center gap-2">
-          <svg className="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="bg-[var(--surface-raised)] rounded-xl border border-[var(--border)] p-4">
+        <h3 className="font-semibold text-[var(--text)] mb-4 flex items-center gap-2">
+          <svg className="w-5 h-5 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
           Incidencias por mes
@@ -251,13 +251,13 @@ export default function DashboardView({ incidencias }: DashboardViewProps) {
           {stats.meses.map((mes, index) => (
             <div key={index} className="flex-1 flex flex-col items-center gap-1">
               <div className="w-full flex flex-col items-center justify-end h-24">
-                <span className="text-xs font-semibold text-slate-700 mb-1">{mes.count}</span>
+                <span className="text-xs font-semibold text-[var(--text-secondary)] mb-1">{mes.count}</span>
                 <div
                   className="w-full max-w-[40px] bg-gradient-to-t from-amber-500 to-amber-400 rounded-t-lg transition-all"
                   style={{ height: `${Math.max((mes.count / mes.maxCount) * 100, 8)}%` }}
                 />
               </div>
-              <span className="text-xs text-slate-500 capitalize">{mes.month}</span>
+              <span className="text-xs text-[var(--text-muted)] capitalize">{mes.month}</span>
             </div>
           ))}
         </div>
@@ -265,9 +265,9 @@ export default function DashboardView({ incidencias }: DashboardViewProps) {
 
       {/* Costos por edificio */}
       {stats.edificiosCostos.length > 0 && (
-        <div className="bg-white rounded-xl border border-slate-200 p-4">
-          <h3 className="font-semibold text-slate-800 mb-4 flex items-center gap-2">
-            <svg className="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-[var(--surface-raised)] rounded-xl border border-[var(--border)] p-4">
+          <h3 className="font-semibold text-[var(--text)] mb-4 flex items-center gap-2">
+            <svg className="w-5 h-5 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
             Costos por edificio
@@ -278,18 +278,18 @@ export default function DashboardView({ incidencias }: DashboardViewProps) {
               return (
                 <div key={index}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium text-slate-700">{edificio.edificio}</span>
-                    <span className="text-sm font-semibold text-slate-800">
+                    <span className="text-sm font-medium text-[var(--text-secondary)]">{edificio.edificio}</span>
+                    <span className="text-sm font-semibold text-[var(--text)]">
                       {edificio.total.toLocaleString("es-ES", { minimumFractionDigits: 2 })} €
                     </span>
                   </div>
-                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all"
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
-                  <div className="text-xs text-slate-500 mt-0.5">
+                  <div className="text-xs text-[var(--text-muted)] mt-0.5">
                     {edificio.count} reparaciones • {percentage.toFixed(0)}% del total
                   </div>
                 </div>
@@ -301,9 +301,9 @@ export default function DashboardView({ incidencias }: DashboardViewProps) {
 
       {/* Tipos de problemas más frecuentes */}
       {stats.tiposProblemas.length > 0 && (
-        <div className="bg-white rounded-xl border border-slate-200 p-4">
-          <h3 className="font-semibold text-slate-800 mb-4 flex items-center gap-2">
-            <svg className="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-[var(--surface-raised)] rounded-xl border border-[var(--border)] p-4">
+          <h3 className="font-semibold text-[var(--text)] mb-4 flex items-center gap-2">
+            <svg className="w-5 h-5 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
             </svg>
             Problemas más frecuentes
@@ -323,7 +323,7 @@ export default function DashboardView({ incidencias }: DashboardViewProps) {
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border ${colors[index % colors.length]}`}
                 >
                   {problema.tipo}
-                  <span className="bg-white/50 px-1.5 py-0.5 rounded text-xs font-bold">
+                  <span className="bg-[var(--surface-raised)]/50 px-1.5 py-0.5 rounded text-xs font-bold">
                     {problema.count}
                   </span>
                 </span>

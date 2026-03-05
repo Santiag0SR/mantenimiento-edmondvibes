@@ -32,23 +32,23 @@ const urgenciaConfig: Record<string, { bg: string; text: string; border: string 
 const estadoStyles: Record<string, { active: string; inactive: string }> = {
   Pendiente: {
     active: "bg-amber-500 text-white shadow-lg shadow-amber-500/30",
-    inactive: "bg-slate-100 text-slate-600 hover:bg-amber-100 hover:text-amber-700",
+    inactive: "bg-stone-100 text-[var(--text-secondary)] hover:bg-amber-100 hover:text-amber-700",
   },
   "En proceso": {
     active: "bg-blue-500 text-white shadow-lg shadow-blue-500/30",
-    inactive: "bg-slate-100 text-slate-600 hover:bg-blue-100 hover:text-blue-700",
+    inactive: "bg-stone-100 text-[var(--text-secondary)] hover:bg-blue-100 hover:text-blue-700",
   },
   "Derivar a especialista": {
     active: "bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30",
-    inactive: "bg-slate-100 text-slate-600 hover:bg-fuchsia-100 hover:text-fuchsia-700",
+    inactive: "bg-stone-100 text-[var(--text-secondary)] hover:bg-fuchsia-100 hover:text-fuchsia-700",
   },
   Completada: {
     active: "bg-emerald-500 text-white shadow-lg shadow-emerald-500/30",
-    inactive: "bg-slate-100 text-slate-600 hover:bg-emerald-100 hover:text-emerald-700",
+    inactive: "bg-stone-100 text-[var(--text-secondary)] hover:bg-emerald-100 hover:text-emerald-700",
   },
   Cancelada: {
-    active: "bg-slate-500 text-white shadow-lg shadow-slate-500/30",
-    inactive: "bg-slate-100 text-slate-600 hover:bg-slate-200",
+    active: "bg-stone-500 text-white shadow-sm",
+    inactive: "bg-stone-100 text-[var(--text-secondary)] hover:bg-stone-200",
   },
 };
 
@@ -134,7 +134,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
       <div className="flex items-center gap-3">
         <Link
           href={backUrl}
-          className="flex items-center gap-2 text-slate-600 hover:text-slate-800 font-medium transition-colors"
+          className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text)] font-medium transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -144,16 +144,16 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
       </div>
 
       {/* Info de la incidencia */}
-      <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden">
+      <div className="bg-[var(--surface-raised)] rounded-2xl shadow-sm border border-[var(--border-light)] overflow-hidden">
         {/* Cabecera con ubicación */}
-        <div className="bg-gradient-to-r from-slate-800 to-slate-700 px-5 py-4">
-          <div className="flex items-center gap-2 text-slate-300 text-sm mb-1">
+        <div className="bg-gradient-to-r from-stone-800 to-stone-900 px-5 py-4">
+          <div className="flex items-center gap-2 text-stone-300 text-sm mb-1">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             {incidencia.edificio} • {incidencia.apartamento}
-            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${categoriaStyles[incidencia.categoria] || "bg-slate-400/20 text-slate-300"}`}>
+            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${categoriaStyles[incidencia.categoria] || "bg-stone-400/20 text-stone-300"}`}>
               {incidencia.categoria}
             </span>
           </div>
@@ -165,7 +165,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
         <div className="p-5 space-y-4">
           {/* Metadata */}
           <div className="flex flex-wrap items-center gap-3 text-sm">
-            <div className="flex items-center gap-2 text-slate-500">
+            <div className="flex items-center gap-2 text-[var(--text-muted)]">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -186,20 +186,20 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
           </div>
 
           {/* Descripción */}
-          <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-            <div className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
+          <div className="bg-stone-50 rounded-xl p-4 border border-[var(--border-light)]">
+            <div className="flex items-center gap-2 text-sm font-semibold text-[var(--text-secondary)] mb-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
               </svg>
               Descripción
             </div>
-            <p className="text-slate-600 leading-relaxed">{incidencia.descripcion}</p>
+            <p className="text-[var(--text-secondary)] leading-relaxed">{incidencia.descripcion}</p>
           </div>
 
           {/* Fotos */}
           {incidencia.fotos && incidencia.fotos.length > 0 && (
             <div>
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-3">
+              <div className="flex items-center gap-2 text-sm font-semibold text-[var(--text-secondary)] mb-3">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -212,7 +212,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
       </div>
 
       {/* Formulario de actualización */}
-      <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden">
+      <div className="bg-[var(--surface-raised)] rounded-2xl shadow-sm border border-[var(--border-light)] overflow-hidden">
         <div className="bg-gradient-to-r from-amber-500 to-amber-400 px-5 py-4">
           <h3 className="font-bold text-white flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,7 +225,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
         <div className="p-5 space-y-5">
           {/* Estado */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
               Estado
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -266,7 +266,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
 
               {/* Especialidad requerida */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                   Especialidad requerida
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -278,7 +278,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
                       className={`py-2.5 px-3 rounded-xl text-sm font-semibold transition-all ${
                         especialidadRequerida === esp
                           ? "bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30"
-                          : "bg-white border-2 border-slate-200 text-slate-600 hover:border-fuchsia-300 hover:text-fuchsia-700"
+                          : "bg-[var(--surface-raised)] border-2 border-[var(--border)] text-[var(--text-secondary)] hover:border-fuchsia-300 hover:text-fuchsia-700"
                       }`}
                     >
                       {esp}
@@ -289,14 +289,14 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
 
               {/* Notas de Javier */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                   Notas de Javier
                 </label>
                 <textarea
                   value={notasJavier}
                   onChange={(e) => setNotasJavier(e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 resize-none bg-white text-slate-800 transition-colors"
+                  className="w-full px-4 py-3 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 resize-none bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
                   placeholder="Diagnóstico y observaciones..."
                 />
               </div>
@@ -306,26 +306,26 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                         Empresa/Tecnico externo
                       </label>
                       <input
                         type="text"
                         value={empresaExterna}
                         onChange={(e) => setEmpresaExterna(e.target.value)}
-                        className="w-full px-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 bg-white text-slate-800 transition-colors"
+                        className="w-full px-4 py-3 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
                         placeholder="Nombre empresa o técnico"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                         Contacto externo
                       </label>
                       <input
                         type="text"
                         value={contactoExterno}
                         onChange={(e) => setContactoExterno(e.target.value)}
-                        className="w-full px-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 bg-white text-slate-800 transition-colors"
+                        className="w-full px-4 py-3 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
                         placeholder="Teléfono o email"
                       />
                     </div>
@@ -334,7 +334,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
                   {/* Presupuesto externo + Aprobado */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                         Presupuesto externo
                       </label>
                       <div className="relative">
@@ -343,11 +343,11 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
                           step="0.01"
                           value={presupuestoExterno}
                           onChange={(e) => setPresupuestoExterno(e.target.value)}
-                          className="w-full px-4 py-3 pr-10 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 bg-white text-slate-800 transition-colors"
+                          className="w-full px-4 py-3 pr-10 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-fuchsia-500 focus:border-fuchsia-500 bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
                           placeholder="0.00"
                         />
                         <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                          <span className="text-slate-400 font-medium">€</span>
+                          <span className="text-[var(--text-muted)] font-medium">€</span>
                         </div>
                       </div>
                     </div>
@@ -358,7 +358,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
                         className={`w-full py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
                           presupuestoAprobado
                             ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/30"
-                            : "bg-white border-2 border-slate-200 text-slate-600 hover:border-emerald-300 hover:text-emerald-700"
+                            : "bg-[var(--surface-raised)] border-2 border-[var(--border)] text-[var(--text-secondary)] hover:border-emerald-300 hover:text-emerald-700"
                         }`}
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -372,7 +372,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
               ) : (
                 /* Vista solo lectura para técnico: empresa, contacto, presupuesto */
                 (empresaExterna || presupuestoExterno) && (
-                  <div className="bg-white rounded-xl p-3 border border-fuchsia-100 space-y-2">
+                  <div className="bg-[var(--surface-raised)] rounded-xl p-3 border border-fuchsia-100 space-y-2">
                     {empresaExterna && (
                       <div className="flex items-center gap-2 text-sm text-fuchsia-700">
                         <span className="font-medium">Empresa:</span> {empresaExterna}
@@ -407,18 +407,18 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                     Fecha programada
                   </label>
                   <input
                     type="date"
                     value={fechaProgramada}
                     onChange={(e) => setFechaProgramada(e.target.value)}
-                    className="w-full px-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-slate-800 transition-colors"
+                    className="w-full px-4 py-3 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                     Hora programada
                   </label>
                   <CustomSelect
@@ -432,12 +432,12 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                   Técnico responsable
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </div>
@@ -445,7 +445,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
                     type="text"
                     value={tecnicoResponsable}
                     onChange={(e) => setTecnicoResponsable(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-slate-800 transition-colors"
+                    className="w-full pl-12 pr-4 py-3 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
                     placeholder="Nombre del técnico"
                   />
                 </div>
@@ -483,21 +483,21 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
 
           {/* Fecha de reparación completada */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
               Fecha de reparación completada
             </label>
             <input
               type="date"
               value={fechaReparacion}
               onChange={(e) => setFechaReparacion(e.target.value)}
-              className="w-full px-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-slate-800 transition-colors"
+              className="w-full px-4 py-3 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
             />
           </div>
 
           {/* Tiempo y costo en grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
+              <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                 Tiempo de reparación
               </label>
               <CustomSelect
@@ -509,7 +509,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
+              <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
                 Costo de reparación
               </label>
               <div className="relative">
@@ -518,11 +518,11 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
                   step="0.01"
                   value={costoReparacion}
                   onChange={(e) => setCostoReparacion(e.target.value)}
-                  className="w-full px-4 py-3 pr-10 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-slate-800 transition-colors"
+                  className="w-full px-4 py-3 pr-10 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
                   placeholder="0.00"
                 />
                 <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                  <span className="text-slate-400 font-medium">€</span>
+                  <span className="text-[var(--text-muted)] font-medium">€</span>
                 </div>
               </div>
             </div>
@@ -538,12 +538,12 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
 
           {/* Contacto técnico */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
               Contacto técnico
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </div>
@@ -551,7 +551,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
                 type="text"
                 value={contactoTecnico}
                 onChange={(e) => setContactoTecnico(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-slate-800 transition-colors"
+                className="w-full pl-12 pr-4 py-3 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
                 placeholder="Teléfono o email"
               />
             </div>
@@ -559,14 +559,14 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
 
           {/* Sugerencias */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label className="block text-sm font-semibold text-[var(--text-secondary)] mb-2">
               Notas / Sugerencias
             </label>
             <textarea
               value={sugerencias}
               onChange={(e) => setSugerencias(e.target.value)}
               rows={3}
-              className="w-full px-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 resize-none bg-white text-slate-800 transition-colors"
+              className="w-full px-4 py-3 text-base border-2 border-[var(--border)] rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 resize-none bg-[var(--surface-raised)] text-[var(--text)] transition-colors"
               placeholder="Notas adicionales sobre la reparación..."
             />
           </div>
@@ -578,7 +578,7 @@ export default function IncidenciaDetail({ incidencia, backUrl = "/admin", role 
             className={`w-full py-4 rounded-xl font-semibold text-base transition-all active:scale-[0.98] ${
               saved
                 ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/30"
-                : "bg-gradient-to-r from-slate-800 to-slate-700 text-white hover:from-slate-700 hover:to-slate-600 shadow-lg shadow-slate-800/20"
+                : "bg-gradient-to-r from-stone-800 to-stone-900 text-white hover:from-stone-700 hover:to-stone-800 shadow-sm"
             } disabled:opacity-50`}
           >
             {loading ? (

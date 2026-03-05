@@ -13,8 +13,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "EdmondVibes - Mantenimiento",
-  description: "Plataforma de gestión de incidencias de mantenimiento",
+  title: "EdmondVibes - Operativa",
+  description: "Plataforma de gestión operativa de EdmondVibes",
 };
 
 export default function RootLayout({
@@ -23,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="light">
-      <body className={`${inter.className} antialiased bg-slate-50 text-black`}>
+    <html lang="es">
+      <body className={`${inter.className} antialiased`}>
         {children}
       </body>
     </html>

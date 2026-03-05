@@ -69,7 +69,7 @@ export default function FileUpload({ files, onFilesChange, label, accept = "*" }
 
   return (
     <div className="space-y-3">
-      <label className="block text-sm font-semibold text-slate-700">
+      <label className="block text-sm font-semibold text-[var(--text-secondary)]">
         {label}
       </label>
 
@@ -79,7 +79,7 @@ export default function FileUpload({ files, onFilesChange, label, accept = "*" }
           {files.map((url, index) => (
             <div
               key={index}
-              className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl p-3 group hover:border-slate-300 transition-colors"
+              className="flex items-center justify-between bg-stone-50 border border-[var(--border)] rounded-xl p-3 group hover:border-stone-300 transition-colors"
             >
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${isPdf(url) ? 'bg-red-100' : 'bg-blue-100'}`}>
@@ -97,7 +97,7 @@ export default function FileUpload({ files, onFilesChange, label, accept = "*" }
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-700 hover:text-amber-600 text-sm font-medium truncate flex-1 transition-colors"
+                  className="text-[var(--text-secondary)] hover:text-amber-600 text-sm font-medium truncate flex-1 transition-colors"
                 >
                   {getFileName(url)}
                 </a>
@@ -105,7 +105,7 @@ export default function FileUpload({ files, onFilesChange, label, accept = "*" }
               <button
                 type="button"
                 onClick={() => removeFile(index)}
-                className="ml-2 w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                className="ml-2 w-8 h-8 flex items-center justify-center rounded-lg text-[var(--text-muted)] hover:text-red-500 hover:bg-red-50 transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -117,20 +117,20 @@ export default function FileUpload({ files, onFilesChange, label, accept = "*" }
       )}
 
       {/* Botón de subir */}
-      <label className="flex items-center justify-center gap-2 w-full py-4 px-4 border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-50/50 transition-all group">
+      <label className="flex items-center justify-center gap-2 w-full py-4 px-4 border-2 border-dashed border-stone-300 rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-50/50 transition-all group">
         {uploading ? (
           <div className="flex items-center gap-2">
             <div className="animate-spin rounded-full h-5 w-5 border-2 border-amber-500 border-t-transparent"></div>
-            <span className="text-slate-600 text-sm font-medium">Subiendo...</span>
+            <span className="text-[var(--text-secondary)] text-sm font-medium">Subiendo...</span>
           </div>
         ) : (
           <>
-            <div className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
-              <svg className="w-4 h-4 text-slate-500 group-hover:text-amber-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-8 h-8 rounded-full bg-stone-100 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
+              <svg className="w-4 h-4 text-[var(--text-muted)] group-hover:text-amber-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
             </div>
-            <span className="text-slate-600 group-hover:text-slate-800 text-sm font-medium transition-colors">Añadir archivo</span>
+            <span className="text-[var(--text-secondary)] group-hover:text-[var(--text)] text-sm font-medium transition-colors">Añadir archivo</span>
           </>
         )}
         <input

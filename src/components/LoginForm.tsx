@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 interface LoginFormProps {
-  panel?: "admin" | "gestion";
+  panel?: "admin" | "gestion" | "gobernanta";
 }
 
 export default function LoginForm({ panel = "admin" }: LoginFormProps) {
@@ -30,7 +30,6 @@ export default function LoginForm({ panel = "admin" }: LoginFormProps) {
         throw new Error("Contraseña incorrecta");
       }
 
-      // Prefetch: calentar caché del servidor mientras se recarga la página
       fetch("/api/incidencias");
       router.refresh();
     } catch (err) {
@@ -40,32 +39,38 @@ export default function LoginForm({ panel = "admin" }: LoginFormProps) {
     }
   };
 
+  const titles: Record<string, string> = {
+    admin: "Técnico",
+    gestion: "Gestión",
+    gobernanta: "Gobernanta",
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-5">
       <div className="max-w-sm w-full">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-8">
             <Image
-              src="/LogoEdmond.png"
+              src="/LogoEdmond5.png"
               alt="EdmondVibes"
-              width={260}
-              height={85}
-              className="h-20 sm:h-24 w-auto"
+              width={320}
+              height={104}
+              className="h-20 sm:h-28 w-auto"
               priority
             />
           </div>
-          <h1 className="text-2xl font-bold text-slate-800 mb-2">
-            {panel === "gestion" ? "Panel de Gestión" : "Panel del Técnico"}
+          <h1 className="text-xl font-semibold text-white mb-1">
+            {titles[panel]}
           </h1>
-          <p className="text-slate-500">Introduce la contraseña para acceder</p>
+          <p className="text-sm text-slate-400">Introduce tu contraseña</p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 p-6 space-y-5"
+          className="bg-white rounded-2xl border border-white/10 shadow-lg shadow-black/10 p-6 space-y-5"
         >
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
+            <label className="block text-xs font-semibold text-stone-500 mb-2">
               Contraseña
             </label>
             <input
@@ -73,14 +78,14 @@ export default function LoginForm({ panel = "admin" }: LoginFormProps) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-slate-800"
+              className="w-full px-4 py-3 text-base border border-stone-200 rounded-xl focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)] bg-stone-50 text-stone-900"
               placeholder="••••••••"
             />
           </div>
 
           {error && (
-            <div className="bg-red-50 border-2 border-red-200 rounded-xl p-3 text-red-700 text-sm flex items-center gap-2">
-              <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-red-50 border border-red-100 rounded-xl p-3 text-red-600 text-sm flex items-center gap-2">
+              <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               {error}
@@ -90,11 +95,11 @@ export default function LoginForm({ panel = "admin" }: LoginFormProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-slate-800 to-slate-700 text-white py-3 rounded-xl font-semibold hover:from-slate-700 hover:to-slate-600 disabled:opacity-50 active:scale-[0.98] shadow-lg shadow-slate-800/20"
+            className="w-full bg-[var(--accent)] text-white py-3 rounded-xl font-semibold hover:bg-[var(--accent-light)] disabled:opacity-50 active:scale-[0.98] transition-all"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
@@ -106,24 +111,24 @@ export default function LoginForm({ panel = "admin" }: LoginFormProps) {
           </button>
         </form>
 
-        <p className="text-center text-sm text-slate-500 mt-6">
-          <a href="/" className="text-amber-600 hover:text-amber-700 font-semibold hover:underline">
-            ← Volver al inicio
+        <p className="text-center text-xs text-slate-400 mt-6">
+          <a href="/" className="text-[var(--accent)] hover:underline font-medium">
+            Volver al inicio
           </a>
         </p>
         {panel === "admin" && (
-          <p className="text-center text-xs text-slate-400 mt-2">
+          <p className="text-center text-[11px] text-slate-400 mt-2">
             ¿Eres administrador?{" "}
-            <a href="/gestion" className="text-slate-500 hover:text-slate-700 hover:underline">
-              Ir al panel de gestión
+            <a href="/gestion" className="hover:underline">
+              Acceder a gestión
             </a>
           </p>
         )}
         {panel === "gestion" && (
-          <p className="text-center text-xs text-slate-400 mt-2">
+          <p className="text-center text-[11px] text-slate-400 mt-2">
             ¿Eres técnico?{" "}
-            <a href="/admin" className="text-slate-500 hover:text-slate-700 hover:underline">
-              Ir al panel del técnico
+            <a href="/admin" className="hover:underline">
+              Acceder como técnico
             </a>
           </p>
         )}

@@ -1,16 +1,16 @@
 import Image from "next/image";
-import { isTecnicoAuthenticated } from "@/lib/auth";
+import { isGobernantaAuthenticated } from "@/lib/auth";
 import LoginForm from "@/components/LoginForm";
-import AutoRefreshWrapper from "@/components/AutoRefreshWrapper";
 import LogoutButton from "@/components/LogoutButton";
+import GobernantaPanel from "@/components/GobernantaPanel";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPage() {
-  const authenticated = await isTecnicoAuthenticated();
+export default async function GobernantaPage() {
+  const authenticated = await isGobernantaAuthenticated();
 
   if (!authenticated) {
-    return <LoginForm panel="admin" />;
+    return <LoginForm panel="gobernanta" />;
   }
 
   return (
@@ -26,10 +26,15 @@ export default async function AdminPage() {
               height={72}
               className="h-14 sm:h-16 w-auto"
             />
-            <LogoutButton />
+            <div className="flex items-center gap-3">
+              <span className="px-2.5 py-1 bg-rose-500/20 text-rose-300 text-[11px] font-semibold rounded-full">
+                Scarlett
+              </span>
+              <LogoutButton />
+            </div>
           </div>
           <h1 className="text-lg font-semibold text-white">
-            Técnico
+            Gobernanta
           </h1>
         </div>
       </div>
@@ -37,7 +42,7 @@ export default async function AdminPage() {
       {/* Content on white */}
       <div className="bg-[var(--surface)] rounded-t-3xl min-h-[calc(100vh-120px)] px-4 pt-5 pb-20">
         <div className="max-w-2xl mx-auto">
-          <AutoRefreshWrapper />
+          <GobernantaPanel />
         </div>
       </div>
     </main>

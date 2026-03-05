@@ -68,7 +68,7 @@ const estadoConfig: Record<string, { bg: string; text: string }> = {
   "En proceso": { bg: "bg-blue-50", text: "text-blue-700" },
   "Derivar a especialista": { bg: "bg-fuchsia-50", text: "text-fuchsia-700" },
   Completada: { bg: "bg-emerald-50", text: "text-emerald-700" },
-  Cancelada: { bg: "bg-slate-100", text: "text-slate-600" },
+  Cancelada: { bg: "bg-stone-100", text: "text-[var(--text-secondary)]" },
 };
 
 const categoriaStyles: Record<string, string> = {
@@ -130,10 +130,10 @@ export default function CalendarView({ incidencias, basePath = "/admin" }: Calen
   return (
     <div className="space-y-4">
       {/* Navegación de semanas */}
-      <div className="flex items-center justify-between bg-white rounded-xl p-3 border border-slate-200">
+      <div className="flex items-center justify-between bg-[var(--surface-raised)] rounded-xl p-3 border border-[var(--border)]">
         <button
           onClick={() => setWeekOffset(weekOffset - 1)}
-          className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg font-medium flex items-center gap-1"
+          className="p-2 text-[var(--text-secondary)] hover:bg-stone-100 rounded-lg font-medium flex items-center gap-1"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -141,7 +141,7 @@ export default function CalendarView({ incidencias, basePath = "/admin" }: Calen
           <span className="hidden sm:inline">Anterior</span>
         </button>
         <div className="text-center">
-          <div className="font-bold text-slate-800">
+          <div className="font-bold text-[var(--text)]">
             {getWeekLabel(currentMonday)}
           </div>
           {weekOffset === 0 && (
@@ -150,7 +150,7 @@ export default function CalendarView({ incidencias, basePath = "/admin" }: Calen
         </div>
         <button
           onClick={() => setWeekOffset(weekOffset + 1)}
-          className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg font-medium flex items-center gap-1"
+          className="p-2 text-[var(--text-secondary)] hover:bg-stone-100 rounded-lg font-medium flex items-center gap-1"
         >
           <span className="hidden sm:inline">Siguiente</span>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,12 +170,12 @@ export default function CalendarView({ incidencias, basePath = "/admin" }: Calen
           return (
             <div
               key={dayKey}
-              className={`bg-white rounded-xl border overflow-hidden ${
-                isToday ? "border-amber-400 ring-2 ring-amber-100" : "border-slate-200"
+              className={`bg-[var(--surface-raised)] rounded-xl border overflow-hidden ${
+                isToday ? "border-amber-400 ring-2 ring-amber-100" : "border-[var(--border)]"
               }`}
             >
-              <div className={`px-4 py-2.5 border-b ${isToday ? "bg-amber-50 border-amber-200" : "bg-slate-50 border-slate-100"}`}>
-                <span className={`font-semibold capitalize ${isToday ? "text-amber-700" : "text-slate-700"}`}>
+              <div className={`px-4 py-2.5 border-b ${isToday ? "bg-amber-50 border-amber-200" : "bg-stone-50 border-[var(--border-light)]"}`}>
+                <span className={`font-semibold capitalize ${isToday ? "text-amber-700" : "text-[var(--text-secondary)]"}`}>
                   {date.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })}
                 </span>
                 {isToday && (
@@ -186,7 +186,7 @@ export default function CalendarView({ incidencias, basePath = "/admin" }: Calen
               </div>
               <div className="p-2">
                 {dayIncidencias.length === 0 ? (
-                  <div className="text-slate-400 text-sm py-3 px-2 text-center">
+                  <div className="text-[var(--text-muted)] text-sm py-3 px-2 text-center">
                     Sin reparaciones programadas
                   </div>
                 ) : (
@@ -196,7 +196,7 @@ export default function CalendarView({ incidencias, basePath = "/admin" }: Calen
                       const estado = estadoConfig[inc.estado] || estadoConfig.Pendiente;
                       return (
                         <Link key={inc.id} href={`${basePath}/${inc.id}`}>
-                          <div className={`p-3 rounded-lg border-l-4 bg-slate-50 hover:bg-slate-100 transition-colors ${urgenciaColors[inc.urgencia] || "border-l-slate-300"}`}>
+                          <div className={`p-3 rounded-lg border-l-4 bg-stone-50 hover:bg-stone-100 transition-colors ${urgenciaColors[inc.urgencia] || "border-l-stone-300"}`}>
                             <div className="flex items-start justify-between gap-2">
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 flex-wrap">
@@ -205,14 +205,14 @@ export default function CalendarView({ incidencias, basePath = "/admin" }: Calen
                                       {hora}
                                     </span>
                                   )}
-                                  <span className="font-medium text-slate-800 text-sm">
+                                  <span className="font-medium text-[var(--text)] text-sm">
                                     {inc.edificio} • {inc.apartamento}
                                   </span>
-                                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${categoriaStyles[inc.categoria] || "bg-slate-100 text-slate-600"}`}>
+                                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${categoriaStyles[inc.categoria] || "bg-stone-100 text-[var(--text-secondary)]"}`}>
                                     {inc.categoria}
                                   </span>
                                 </div>
-                                <div className="text-slate-600 text-sm truncate mt-1">
+                                <div className="text-[var(--text-secondary)] text-sm truncate mt-1">
                                   {inc.descripcion}
                                 </div>
                               </div>
@@ -234,7 +234,7 @@ export default function CalendarView({ incidencias, basePath = "/admin" }: Calen
 
       {/* Sin fecha programada */}
       {sinFecha.length > 0 && (
-        <div className="bg-white rounded-xl border border-orange-200 overflow-hidden">
+        <div className="bg-[var(--surface-raised)] rounded-xl border border-orange-200 overflow-hidden">
           <div className="px-4 py-2.5 border-b bg-orange-50 border-orange-100">
             <span className="font-semibold text-orange-800">
               Sin fecha programada ({sinFecha.length})
@@ -245,18 +245,18 @@ export default function CalendarView({ incidencias, basePath = "/admin" }: Calen
               const estado = estadoConfig[inc.estado] || estadoConfig.Pendiente;
               return (
                 <Link key={inc.id} href={`${basePath}/${inc.id}`}>
-                  <div className={`p-3 rounded-lg border-l-4 bg-slate-50 hover:bg-slate-100 transition-colors ${urgenciaColors[inc.urgencia] || "border-l-slate-300"}`}>
+                  <div className={`p-3 rounded-lg border-l-4 bg-stone-50 hover:bg-stone-100 transition-colors ${urgenciaColors[inc.urgencia] || "border-l-stone-300"}`}>
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-medium text-slate-800 text-sm">
+                          <span className="font-medium text-[var(--text)] text-sm">
                             {inc.edificio} • {inc.apartamento}
                           </span>
-                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${categoriaStyles[inc.categoria] || "bg-slate-100 text-slate-600"}`}>
+                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${categoriaStyles[inc.categoria] || "bg-stone-100 text-[var(--text-secondary)]"}`}>
                             {inc.categoria}
                           </span>
                         </div>
-                        <div className="text-slate-600 text-sm truncate mt-1">
+                        <div className="text-[var(--text-secondary)] text-sm truncate mt-1">
                           {inc.descripcion}
                         </div>
                       </div>

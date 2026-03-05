@@ -20,6 +20,19 @@ export async function POST(request: Request) {
       }
     }
 
+    // Panel de gobernanta
+    if (panel === "gobernanta") {
+      if (password === process.env.GOBERNANTA_PASSWORD) {
+        cookieStore.set("user_role", "gobernanta", {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: 60 * 60 * 24 * 7, // 1 semana
+        });
+        return NextResponse.json({ success: true });
+      }
+    }
+
     // Panel de técnico (admin)
     if (panel === "admin" || !panel) {
       if (password === process.env.ADMIN_PASSWORD) {

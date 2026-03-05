@@ -92,3 +92,52 @@ export interface MantenimientoUpdate {
   fotos?: string[];
   apartamentosCompletados?: string;
 }
+
+// Tareas de gobernanta
+
+export type EstadoTareaGobernanta = "Pendiente" | "Completada" | "No realizada";
+
+export interface TareaGobernanta {
+  id: string;
+  tarea: string;
+  edificio: string;
+  dia: string;
+  horaInicio: string;
+  duracion: number;
+  recurrente: boolean;
+  estado: EstadoTareaGobernanta;
+  fechaEspecifica?: string;
+  notas?: string;
+}
+
+// Solicitudes de compras
+
+export type EstadoCompra = "Pendiente" | "En revisión" | "Rechazado" | "Aprobado" | "Comprado";
+
+export interface SolicitudCompra {
+  id: string;
+  solicitud: string;
+  cantidad?: number;
+  estado: EstadoCompra;
+  urgencia: string;
+  edificio: string[];
+  fechaSolicitud?: string;
+  fechaCompra?: string;
+  fechaEntrega?: string;
+  presupuestoEstimado?: number;
+  presupuestoAprobado?: number;
+  montoGastado?: number;
+  links?: string;
+  comentariosAprobacion?: string;
+  solicitante?: string;
+}
+
+export interface SolicitudCompraInput {
+  solicitud: string;
+  cantidad?: number;
+  urgencia: string;
+  edificio: string[];
+  presupuestoEstimado?: number;
+  links?: string;
+  solicitante?: string;
+}

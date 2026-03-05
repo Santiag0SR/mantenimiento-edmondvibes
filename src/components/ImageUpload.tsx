@@ -61,8 +61,8 @@ export default function ImageUpload({ onImagesChange }: ImageUploadProps) {
 
   return (
     <div className="space-y-3">
-      <label className="block text-sm font-semibold text-slate-700">
-        Fotos <span className="text-slate-400 font-normal">(opcional)</span>
+      <label className="block text-sm font-semibold text-[var(--text-secondary)]">
+        Fotos <span className="text-[var(--text-muted)] font-normal">(opcional)</span>
       </label>
 
       <div className="flex flex-wrap gap-3">
@@ -71,7 +71,7 @@ export default function ImageUpload({ onImagesChange }: ImageUploadProps) {
             <img
               src={url}
               alt={`Foto ${index + 1}`}
-              className="w-full h-full object-cover rounded-xl border-2 border-slate-200"
+              className="w-full h-full object-cover rounded-xl border-2 border-[var(--border)]"
             />
             <button
               type="button"
@@ -83,7 +83,7 @@ export default function ImageUpload({ onImagesChange }: ImageUploadProps) {
           </div>
         ))}
 
-        <label className="w-20 h-20 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-amber-500 hover:bg-amber-50 transition-colors">
+        <label className="w-20 h-20 border-2 border-dashed border-stone-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-amber-500 hover:bg-amber-50 transition-colors">
           {uploading ? (
             <svg className="animate-spin h-6 w-6 text-amber-500" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
@@ -91,10 +91,10 @@ export default function ImageUpload({ onImagesChange }: ImageUploadProps) {
             </svg>
           ) : (
             <>
-              <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
-              <span className="text-xs text-slate-500 mt-1">Añadir</span>
+              <span className="text-xs text-[var(--text-muted)] mt-1">Añadir</span>
             </>
           )}
           <input

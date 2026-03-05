@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import type { Incidencia, Mantenimiento } from "@/types";
+import type { Incidencia, Mantenimiento, SolicitudCompra } from "@/types";
 import AdminTabs from "./AdminTabs";
 
 interface AutoRefreshWrapperProps {
@@ -17,27 +17,27 @@ function LoadingSkeleton() {
     <div className="space-y-4 animate-pulse">
       {/* Fake filter bar */}
       <div className="flex gap-2">
-        <div className="h-10 w-24 bg-slate-200 rounded-xl" />
-        <div className="h-10 w-24 bg-slate-200 rounded-xl" />
-        <div className="h-10 w-24 bg-slate-200 rounded-xl" />
+        <div className="h-10 w-24 bg-stone-200 rounded-xl" />
+        <div className="h-10 w-24 bg-stone-200 rounded-xl" />
+        <div className="h-10 w-24 bg-stone-200 rounded-xl" />
       </div>
       {/* Fake stat pills */}
       <div className="flex gap-2">
-        <div className="h-8 w-20 bg-slate-100 rounded-full" />
-        <div className="h-8 w-20 bg-slate-100 rounded-full" />
-        <div className="h-8 w-20 bg-slate-100 rounded-full" />
+        <div className="h-8 w-20 bg-stone-100 rounded-full" />
+        <div className="h-8 w-20 bg-stone-100 rounded-full" />
+        <div className="h-8 w-20 bg-stone-100 rounded-full" />
       </div>
       {/* Fake cards */}
       {[1, 2, 3, 4].map((i) => (
-        <div key={i} className="bg-white rounded-2xl border border-slate-100 p-4 space-y-3">
+        <div key={i} className="bg-white rounded-2xl border border-stone-100 p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <div className="h-5 w-40 bg-slate-200 rounded" />
-            <div className="h-6 w-20 bg-slate-100 rounded-full" />
+            <div className="h-5 w-40 bg-stone-200 rounded" />
+            <div className="h-6 w-20 bg-stone-100 rounded-full" />
           </div>
-          <div className="h-4 w-60 bg-slate-100 rounded" />
+          <div className="h-4 w-60 bg-stone-100 rounded" />
           <div className="flex gap-2">
-            <div className="h-4 w-24 bg-slate-100 rounded" />
-            <div className="h-4 w-16 bg-slate-100 rounded" />
+            <div className="h-4 w-24 bg-stone-100 rounded" />
+            <div className="h-4 w-16 bg-stone-100 rounded" />
           </div>
         </div>
       ))}
@@ -52,21 +52,26 @@ export default function AutoRefreshWrapper({
 }: AutoRefreshWrapperProps) {
   const [incidencias, setIncidencias] = useState<Incidencia[] | null>(initialIncidencias);
   const [mantenimientos, setMantenimientos] = useState<Mantenimiento[] | null>(null);
+  const [compras, setCompras] = useState<SolicitudCompra[] | null>(null);
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchAll = useCallback(async () => {
     try {
       setIsRefreshing(true);
-      const [incRes, mantRes] = await Promise.all([
+      const [incRes, mantRes, comprasRes] = await Promise.all([
         fetch("/api/incidencias"),
         fetch("/api/mantenimiento"),
+        fetch(basePath === "/gestion" ? "/api/gobernanta/compras" : "/api/gobernanta/compras?solicitante=Javier"),
       ]);
       if (incRes.ok) {
         setIncidencias(await incRes.json());
       }
       if (mantRes.ok) {
         setMantenimientos(await mantRes.json());
+      }
+      if (comprasRes.ok) {
+        setCompras(await comprasRes.json());
       }
       setLastUpdate(new Date());
     } catch (error) {
@@ -139,8 +144,8 @@ export default function AutoRefreshWrapper({
 
   return (
     <div className="space-y-4">
-      {/* Indicador de última actualización - discreto */}
-      <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
+      {/* Update indicator */}
+      <div className="flex items-center gap-1.5 text-[11px] text-[var(--text-muted)]">
         <div className={`w-1.5 h-1.5 rounded-full ${isRefreshing ? "bg-amber-400 animate-pulse" : "bg-emerald-400"}`} />
         <span>{isRefreshing ? "Actualizando..." : formatLastUpdate()}</span>
       </div>
@@ -148,8 +153,10 @@ export default function AutoRefreshWrapper({
       <AdminTabs
         incidencias={incidencias}
         mantenimientos={mantenimientos || []}
+        compras={compras || []}
         showDashboard={showDashboard}
         basePath={basePath}
+        onComprasUpdated={() => fetch(basePath === "/gestion" ? "/api/gobernanta/compras" : "/api/gobernanta/compras?solicitante=Javier").then(r => r.ok ? r.json() : []).then(setCompras)}
       />
     </div>
   );

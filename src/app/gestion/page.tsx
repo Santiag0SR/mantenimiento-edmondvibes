@@ -14,33 +14,36 @@ export default async function GestionPage() {
   }
 
   return (
-    <main className="min-h-screen py-6 px-4 pb-20">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
+    <main className="min-h-screen">
+      {/* Header on navy */}
+      <div className="px-4 pt-6 pb-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center justify-between mb-3">
             <Image
-              src="/LogoEdmond.png"
+              src="/LogoEdmond5.png"
               alt="EdmondVibes"
-              width={200}
-              height={65}
+              width={220}
+              height={72}
               className="h-14 sm:h-16 w-auto"
             />
-            <LogoutButton />
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-xl font-bold text-slate-800">
-                Panel de Gestión
-              </h1>
+            <div className="flex items-center gap-3">
+              <span className="px-2.5 py-1 bg-[var(--accent)]/20 text-[var(--accent-light)] text-[11px] font-semibold rounded-full">
+                Admin
+              </span>
+              <LogoutButton />
             </div>
-            <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full">
-              Administrador
-            </span>
           </div>
+          <h1 className="text-lg font-semibold text-white">
+            Gestión
+          </h1>
         </div>
+      </div>
 
-        <AutoRefreshWrapper showDashboard={true} basePath="/gestion" />
+      {/* Content on white */}
+      <div className="bg-[var(--surface)] rounded-t-3xl min-h-[calc(100vh-120px)] px-4 pt-5 pb-20">
+        <div className="max-w-2xl mx-auto">
+          <AutoRefreshWrapper showDashboard={true} basePath="/gestion" />
+        </div>
       </div>
     </main>
   );

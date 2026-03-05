@@ -19,10 +19,10 @@ const ESTADOS_MANTENIMIENTO: EstadoMantenimiento[] = [
 ];
 
 const estadoStyles: Record<string, { badge: string; dot: string }> = {
-  "Pendiente de programación": { badge: "bg-amber-100 text-amber-700", dot: "bg-amber-500" },
-  "Programado": { badge: "bg-blue-100 text-blue-700", dot: "bg-blue-500" },
-  "En curso": { badge: "bg-indigo-100 text-indigo-700", dot: "bg-indigo-500" },
-  "Completado": { badge: "bg-emerald-100 text-emerald-700", dot: "bg-emerald-500" },
+  "Pendiente de programación": { badge: "bg-amber-50 text-amber-700", dot: "bg-amber-500" },
+  "Programado": { badge: "bg-blue-50 text-blue-700", dot: "bg-blue-500" },
+  "En curso": { badge: "bg-indigo-50 text-indigo-700", dot: "bg-indigo-500" },
+  "Completado": { badge: "bg-emerald-50 text-emerald-700", dot: "bg-emerald-500" },
 };
 
 const frecuenciaStyles: Record<string, string> = {
@@ -30,8 +30,8 @@ const frecuenciaStyles: Record<string, string> = {
   "Mensual": "bg-orange-50 text-orange-600",
   "Trimestral": "bg-amber-50 text-amber-600",
   "Semestral": "bg-cyan-50 text-cyan-600",
-  "Anual": "bg-slate-50 text-slate-600",
-  "cada 5 años": "bg-slate-50 text-slate-500",
+  "Anual": "bg-stone-50 text-stone-600",
+  "cada 5 años": "bg-stone-50 text-stone-500",
 };
 
 // Resolver alias de edificio a nombre completo, categoría y apartamentos
@@ -282,25 +282,25 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
   return (
     <div className="space-y-4">
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="flex gap-3">
         <button
           onClick={() => { setSoloVencidas(!soloVencidas); setFiltroEstado(""); }}
-          className={`rounded-2xl p-3 text-center transition-all ${
+          className={`flex-1 rounded-2xl p-3.5 text-center transition-all ${
             soloVencidas
-              ? "bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-lg shadow-red-500/30 scale-[1.02]"
-              : "bg-gradient-to-br from-red-50 to-red-100/80 border border-red-200"
+              ? "bg-red-500 text-white"
+              : "bg-[var(--surface-raised)] border border-[var(--border-light)]"
           }`}
         >
-          <div className={`text-2xl font-bold ${soloVencidas ? "text-white" : "text-red-600"}`}>{stats.vencidas}</div>
-          <div className={`text-[11px] font-semibold ${soloVencidas ? "text-white/80" : "text-red-600/70"}`}>Vencidas</div>
+          <div className={`text-2xl font-bold ${soloVencidas ? "text-white" : "text-red-500"}`}>{stats.vencidas}</div>
+          <div className={`text-[11px] font-medium ${soloVencidas ? "text-white/70" : "text-[var(--text-muted)]"}`}>Vencidas</div>
         </button>
-        <div className="bg-gradient-to-br from-amber-50 to-amber-100/80 border border-amber-200 rounded-2xl p-3 text-center">
+        <div className="flex-1 bg-[var(--surface-raised)] border border-[var(--border-light)] rounded-2xl p-3.5 text-center">
           <div className="text-2xl font-bold text-amber-600">{stats.proximaSemana}</div>
-          <div className="text-[11px] font-semibold text-amber-600/70">Esta semana</div>
+          <div className="text-[11px] font-medium text-[var(--text-muted)]">Esta semana</div>
         </div>
-        <div className="bg-gradient-to-br from-slate-50 to-slate-100/80 border border-slate-200 rounded-2xl p-3 text-center">
-          <div className="text-2xl font-bold text-slate-600">{stats.pendientes}</div>
-          <div className="text-[11px] font-semibold text-slate-500">Pendientes</div>
+        <div className="flex-1 bg-[var(--surface-raised)] border border-[var(--border-light)] rounded-2xl p-3.5 text-center">
+          <div className="text-2xl font-bold text-[var(--text)]">{stats.pendientes}</div>
+          <div className="text-[11px] font-medium text-[var(--text-muted)]">Pendientes</div>
         </div>
       </div>
 
@@ -309,7 +309,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
         <select
           value={filtroEstado}
           onChange={(e) => { setFiltroEstado(e.target.value as EstadoMantenimiento | ""); setSoloVencidas(false); }}
-          className="px-3 py-2 text-sm border-2 border-slate-200 rounded-xl bg-white text-slate-700 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+          className="px-3 py-2 text-sm border border-[var(--border)] rounded-xl bg-[var(--surface-raised)] text-[var(--text-secondary)] focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)]"
         >
           <option value="">Todos los estados</option>
           {ESTADOS_MANTENIMIENTO.map((est) => (
@@ -320,7 +320,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
           <select
             value={filtroTipo}
             onChange={(e) => setFiltroTipo(e.target.value)}
-            className="px-3 py-2 text-sm border-2 border-slate-200 rounded-xl bg-white text-slate-700 focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+            className="px-3 py-2 text-sm border border-[var(--border)] rounded-xl bg-[var(--surface-raised)] text-[var(--text-secondary)] focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)]"
           >
             <option value="">Todos los tipos</option>
             {tipos.map((t) => (
@@ -332,12 +332,11 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
 
       {/* Lista */}
       {filtrados.length === 0 ? (
-        <div className="text-center py-12 text-slate-500">
-          <svg className="w-12 h-12 mx-auto mb-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="text-center py-16 text-[var(--text-muted)]">
+          <svg className="w-10 h-10 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
-          <p className="font-medium">No hay tareas de mantenimiento</p>
-          <p className="text-sm">con los filtros seleccionados</p>
+          <p className="text-sm">No hay tareas de mantenimiento</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -357,22 +356,22 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
             return (
               <div
                 key={m.id}
-                className={`bg-white rounded-2xl border overflow-hidden transition-all border-l-4 ${
+                className={`bg-[var(--surface-raised)] rounded-2xl border overflow-hidden transition-all border-l-[3px] ${
                   overdue
-                    ? "border-l-red-500 border-red-200 shadow-lg shadow-red-100/50"
+                    ? "border-l-red-500 border-red-100"
                     : dueSoon
-                    ? "border-l-amber-500 border-amber-200 shadow-md shadow-amber-100/50"
+                    ? "border-l-amber-400 border-amber-100"
                     : m.estado === "En curso"
-                    ? "border-l-indigo-500 border-slate-100 shadow-sm"
+                    ? "border-l-indigo-400 border-[var(--border-light)]"
                     : m.estado === "Completado"
-                    ? "border-l-emerald-500 border-slate-100 shadow-sm"
-                    : "border-l-slate-300 border-slate-100 shadow-sm"
+                    ? "border-l-emerald-400 border-[var(--border-light)]"
+                    : "border-l-stone-300 border-[var(--border-light)]"
                 }`}
               >
                 {/* Card header */}
                 <button
                   onClick={() => setExpandedId(isExpanded ? null : m.id)}
-                  className="w-full text-left p-4 hover:bg-slate-50/50 transition-colors"
+                  className="w-full text-left p-4 hover:bg-stone-50/50 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
@@ -380,7 +379,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                         {overdue && (
                           <span className="flex-shrink-0 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                         )}
-                        <h3 className="font-bold text-slate-800 text-base leading-tight truncate">
+                        <h3 className="font-semibold text-[var(--text)] text-sm leading-tight truncate">
                           {m.tarea}
                         </h3>
                       </div>
@@ -391,7 +390,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                           {m.estado}
                         </span>
                         {m.frecuenciaRevision && (
-                          <span className={`px-2 py-0.5 rounded-full font-medium ${frecuenciaStyles[m.frecuenciaRevision] || "bg-slate-50 text-slate-500"}`}>
+                          <span className={`px-2 py-0.5 rounded-full font-medium ${frecuenciaStyles[m.frecuenciaRevision] || "bg-stone-50 text-[var(--text-muted)]"}`}>
                             {m.frecuenciaRevision}
                           </span>
                         )}
@@ -403,7 +402,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                       </div>
 
                       {m.edificio && (
-                        <div className="flex items-center gap-1 mt-1.5 text-xs text-slate-500">
+                        <div className="flex items-center gap-1 mt-1.5 text-xs text-[var(--text-muted)]">
                           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -420,17 +419,17 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
 
                     <div className="flex-shrink-0 text-right">
                       {m.fechaProgramada ? (
-                        <div className={`text-xs font-semibold ${overdue ? "text-red-600" : dueSoon ? "text-amber-600" : "text-slate-500"}`}>
+                        <div className={`text-xs font-semibold ${overdue ? "text-red-600" : dueSoon ? "text-amber-600" : "text-[var(--text-muted)]"}`}>
                           {overdue && "VENCIDA "}
                           {formatDate(m.fechaProgramada)}
                         </div>
                       ) : (
-                        <div className="text-xs text-slate-400">Sin fecha</div>
+                        <div className="text-xs text-[var(--text-muted)]">Sin fecha</div>
                       )}
                       {m.tecnico && (
-                        <div className="text-xs text-slate-400 mt-0.5">{m.tecnico}</div>
+                        <div className="text-xs text-[var(--text-muted)] mt-0.5">{m.tecnico}</div>
                       )}
-                      <svg className={`w-4 h-4 ml-auto mt-1 text-slate-400 transition-transform ${isExpanded ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className={`w-4 h-4 ml-auto mt-1 text-[var(--text-muted)] transition-transform ${isExpanded ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
                     </div>
@@ -439,26 +438,26 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
 
                 {/* Expanded content */}
                 {isExpanded && (
-                  <div className="px-4 pb-4 border-t border-slate-100 pt-3 space-y-3">
+                  <div className="px-4 pb-4 border-t border-[var(--border-light)] pt-3 space-y-3">
                     {/* Info grid */}
                     <div className="grid grid-cols-2 gap-2 text-xs">
                       {m.fechaUltimaInspeccion && (
-                        <div className="bg-slate-50 rounded-lg p-2">
-                          <span className="text-slate-500">Última inspección</span>
-                          <div className="font-semibold text-slate-700">{formatDate(m.fechaUltimaInspeccion)}</div>
+                        <div className="bg-stone-50 rounded-lg p-2">
+                          <span className="text-[var(--text-muted)]">Última inspección</span>
+                          <div className="font-semibold text-[var(--text-secondary)]">{formatDate(m.fechaUltimaInspeccion)}</div>
                         </div>
                       )}
                       {m.contacto && (
-                        <div className="bg-slate-50 rounded-lg p-2">
-                          <span className="text-slate-500">Contacto</span>
-                          <div className="font-semibold text-slate-700">{m.contacto}</div>
+                        <div className="bg-stone-50 rounded-lg p-2">
+                          <span className="text-[var(--text-muted)]">Contacto</span>
+                          <div className="font-semibold text-[var(--text-secondary)]">{m.contacto}</div>
                         </div>
                       )}
                     </div>
 
                     {m.notasEjecucion && (
-                      <div className="bg-slate-50 rounded-lg p-3 text-sm text-slate-600">
-                        <span className="font-semibold text-slate-700 text-xs">Notas:</span>
+                      <div className="bg-stone-50 rounded-lg p-3 text-sm text-[var(--text-secondary)]">
+                        <span className="font-semibold text-[var(--text-secondary)] text-xs">Notas:</span>
                         <p className="mt-1">{m.notasEjecucion}</p>
                       </div>
                     )}
@@ -483,7 +482,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                               key={est}
                               onClick={() => handleUpdateEstado(m.id, est)}
                               disabled={savingId === m.id}
-                              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${estadoStyles[est]?.badge || "bg-slate-100 text-slate-600"} hover:opacity-80 disabled:opacity-50`}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${estadoStyles[est]?.badge || "bg-stone-100 text-[var(--text-secondary)]"} hover:opacity-80 disabled:opacity-50`}
                             >
                               {est}
                             </button>
@@ -519,11 +518,11 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                                     className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all text-left ${
                                       isDone
                                         ? "bg-indigo-500 text-white"
-                                        : "bg-white border border-indigo-200 text-slate-700 hover:border-indigo-400"
+                                        : "bg-[var(--surface-raised)] border border-indigo-200 text-[var(--text-secondary)] hover:border-indigo-400"
                                     } ${isSavingApt ? "opacity-50 cursor-wait" : ""}`}
                                   >
                                     <span className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
-                                      isDone ? "bg-white border-white/50 scale-110" : "border-slate-300"
+                                      isDone ? "bg-[var(--surface-raised)] border-white/50 scale-110" : "border-stone-300"
                                     }`}>
                                       {isDone && (
                                         <svg className="w-3 h-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -563,12 +562,12 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
 
                             {/* Apartamento */}
                             <div>
-                              <label className="block text-xs font-semibold text-slate-700 mb-1">Apartamento *</label>
+                              <label className="block text-xs font-semibold text-[var(--text-secondary)] mb-1">Apartamento *</label>
                               {allApts.length > 0 ? (
                                 <select
                                   value={incApartamento}
                                   onChange={(e) => setIncApartamento(e.target.value)}
-                                  className="w-full px-3 py-2 text-sm border-2 border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-slate-800"
+                                  className="w-full px-3 py-2 text-sm border-2 border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-[var(--surface-raised)] text-[var(--text)]"
                                 >
                                   <option value="">Seleccionar apartamento</option>
                                   <option value="Zonas comunes">Zonas comunes</option>
@@ -581,7 +580,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                                   type="text"
                                   value={incApartamento}
                                   onChange={(e) => setIncApartamento(e.target.value)}
-                                  className="w-full px-3 py-2 text-sm border-2 border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white text-slate-800"
+                                  className="w-full px-3 py-2 text-sm border-2 border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-[var(--surface-raised)] text-[var(--text)]"
                                   placeholder="Ej: Zonas comunes, Planta 2..."
                                 />
                               )}
@@ -589,19 +588,19 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
 
                             {/* Descripción */}
                             <div>
-                              <label className="block text-xs font-semibold text-slate-700 mb-1">Descripción *</label>
+                              <label className="block text-xs font-semibold text-[var(--text-secondary)] mb-1">Descripción *</label>
                               <textarea
                                 value={incDescripcion}
                                 onChange={(e) => setIncDescripcion(e.target.value)}
                                 rows={2}
-                                className="w-full px-3 py-2 text-sm border-2 border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 resize-none bg-white text-slate-800"
+                                className="w-full px-3 py-2 text-sm border-2 border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 resize-none bg-[var(--surface-raised)] text-[var(--text)]"
                                 placeholder="Describe el problema encontrado..."
                               />
                             </div>
 
                             {/* Urgencia */}
                             <div>
-                              <label className="block text-xs font-semibold text-slate-700 mb-1">Urgencia</label>
+                              <label className="block text-xs font-semibold text-[var(--text-secondary)] mb-1">Urgencia</label>
                               <div className="grid grid-cols-4 gap-1.5">
                                 {URGENCIAS.map((urg) => (
                                   <button
@@ -614,7 +613,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                                           : urg === "Alta" ? "bg-orange-500 text-white"
                                           : urg === "Media" ? "bg-amber-500 text-white"
                                           : "bg-emerald-500 text-white"
-                                        : "bg-white border border-slate-200 text-slate-600"
+                                        : "bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)]"
                                     }`}
                                   >
                                     {urg}
@@ -642,7 +641,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                               </button>
                               <button
                                 onClick={() => setCreandoIncidencia(null)}
-                                className="px-4 py-2 rounded-lg text-sm font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all"
+                                className="px-4 py-2 rounded-lg text-sm font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] hover:bg-stone-50 transition-all"
                               >
                                 Cancelar
                               </button>
@@ -654,7 +653,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                         {!isCompleting ? (
                           <button
                             onClick={() => { setCompletando(m.id); setNotasCompletar(""); }}
-                            className="w-full py-2.5 rounded-xl text-sm font-bold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:from-emerald-600 hover:to-green-600 active:scale-[0.98] transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+                            className="w-full py-2.5 rounded-xl text-sm font-bold bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:from-emerald-600 hover:to-green-600 active:scale-[0.98] transition-all shadow-sm flex items-center justify-center gap-2"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
@@ -667,7 +666,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                               value={notasCompletar}
                               onChange={(e) => setNotasCompletar(e.target.value)}
                               rows={2}
-                              className="w-full px-3 py-2 text-sm border-2 border-emerald-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none bg-white text-slate-800"
+                              className="w-full px-3 py-2 text-sm border-2 border-emerald-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none bg-[var(--surface-raised)] text-[var(--text)]"
                               placeholder="Notas de la revisión (opcional)..."
                             />
                             <div className="flex gap-2">
@@ -688,7 +687,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                               </button>
                               <button
                                 onClick={() => setCompletando(null)}
-                                className="px-4 py-2 rounded-lg text-sm font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all"
+                                className="px-4 py-2 rounded-lg text-sm font-semibold bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] hover:bg-stone-50 transition-all"
                               >
                                 Cancelar
                               </button>
@@ -708,7 +707,7 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                           Completado
                           {m.fechaUltimaInspeccion && ` el ${formatDate(m.fechaUltimaInspeccion)}`}
                           {m.fechaProgramada && (
-                            <span className="text-slate-500 font-normal">
+                            <span className="text-[var(--text-muted)] font-normal">
                               · Próxima: {formatDate(m.fechaProgramada)}
                             </span>
                           )}

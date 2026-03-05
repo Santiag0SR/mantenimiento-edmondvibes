@@ -6,21 +6,18 @@ import type { Urgencia, Categoria } from "@/lib/buildings";
 import ImageUpload from "./ImageUpload";
 import CustomSelect from "./CustomSelect";
 
-const categoriaConfig: Record<string, { bg: string; bgActive: string; text: string; border: string }> = {
+const categoriaConfig: Record<string, { bgActive: string; border: string; text: string }> = {
   "Turístico": {
-    bg: "bg-white",
     bgActive: "bg-indigo-500",
     text: "text-indigo-700",
     border: "border-indigo-300",
   },
   "Corporativo": {
-    bg: "bg-white",
     bgActive: "bg-violet-500",
     text: "text-violet-700",
     border: "border-violet-300",
   },
   "Vitarooms": {
-    bg: "bg-white",
     bgActive: "bg-teal-500",
     text: "text-teal-700",
     border: "border-teal-300",
@@ -85,20 +82,20 @@ export default function ReportForm() {
   if (success) {
     return (
       <div className="text-center py-8">
-        <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-xl font-bold text-slate-800 mb-2">
+        <h3 className="text-lg font-semibold text-[var(--text)] mb-1">
           Incidencia reportada
         </h3>
-        <p className="text-slate-600 mb-6">
-          Tu incidencia ha sido registrada correctamente. Nos pondremos en contacto contigo pronto.
+        <p className="text-sm text-[var(--text-muted)] mb-6">
+          Tu incidencia ha sido registrada correctamente.
         </p>
         <button
           onClick={() => setSuccess(false)}
-          className="bg-slate-800 text-white px-6 py-3 rounded-xl font-semibold hover:bg-slate-700 active:scale-[0.98]"
+          className="bg-[var(--primary)] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[var(--primary-light)] active:scale-[0.98] transition-all"
         >
           Reportar otra incidencia
         </button>
@@ -108,10 +105,9 @@ export default function ReportForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Categoría */}
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-2">
-          Categoría <span className="text-amber-500">*</span>
+        <label className="block text-xs font-semibold text-[var(--text-secondary)] mb-2">
+          Categoria <span className="text-[var(--accent)]">*</span>
         </label>
         <div className="grid grid-cols-3 gap-2">
           {CATEGORIAS.map((cat) => {
@@ -127,10 +123,10 @@ export default function ReportForm() {
                   setApartamento("");
                   setTecnicoAsignado("");
                 }}
-                className={`py-3 px-3 rounded-xl text-sm font-semibold border-2 active:scale-[0.97] transition-all ${
+                className={`py-3 px-3 rounded-xl text-sm font-semibold border active:scale-[0.97] transition-all ${
                   isActive
-                    ? `${config.bgActive} border-transparent text-white shadow-lg`
-                    : `${config.bg} border-slate-200 text-slate-700 hover:${config.border} hover:${config.text}`
+                    ? `${config.bgActive} border-transparent text-white`
+                    : `bg-[var(--surface-raised)] border-[var(--border)] text-[var(--text-secondary)] hover:${config.border} hover:${config.text}`
                 }`}
               >
                 {cat}
@@ -140,10 +136,9 @@ export default function ReportForm() {
         </div>
       </div>
 
-      {/* Edificio */}
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-2">
-          Edificio <span className="text-amber-500">*</span>
+        <label className="block text-xs font-semibold text-[var(--text-secondary)] mb-2">
+          Edificio <span className="text-[var(--accent)]">*</span>
         </label>
         <CustomSelect
           value={edificio}
@@ -152,15 +147,14 @@ export default function ReportForm() {
             setApartamento("");
           }}
           options={Object.keys(edificios)}
-          placeholder={categoria ? "Selecciona edificio" : "Selecciona categoría primero"}
+          placeholder={categoria ? "Selecciona edificio" : "Selecciona categoria primero"}
           disabled={!categoria}
         />
       </div>
 
-      {/* Apartamento */}
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-2">
-          Apartamento <span className="text-amber-500">*</span>
+        <label className="block text-xs font-semibold text-[var(--text-secondary)] mb-2">
+          Apartamento <span className="text-[var(--accent)]">*</span>
         </label>
         <CustomSelect
           value={apartamento}
@@ -171,10 +165,9 @@ export default function ReportForm() {
         />
       </div>
 
-      {/* Descripción */}
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-2">
-          Descripción del problema <span className="text-amber-500">*</span>
+        <label className="block text-xs font-semibold text-[var(--text-secondary)] mb-2">
+          Descripcion del problema <span className="text-[var(--accent)]">*</span>
         </label>
         <textarea
           value={descripcion}
@@ -182,14 +175,13 @@ export default function ReportForm() {
           required
           rows={4}
           placeholder="Describe el problema con detalle..."
-          className="w-full px-4 py-3 text-base border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 resize-none bg-white text-slate-800 placeholder:text-slate-400"
+          className="w-full px-4 py-3 text-base border border-[var(--border)] rounded-xl focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)] resize-none bg-[var(--surface)] text-[var(--text)] placeholder:text-[var(--text-muted)]"
         />
       </div>
 
-      {/* Urgencia */}
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-2">
-          Urgencia <span className="text-amber-500">*</span>
+        <label className="block text-xs font-semibold text-[var(--text-secondary)] mb-2">
+          Urgencia <span className="text-[var(--accent)]">*</span>
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {URGENCIAS.map((urg) => (
@@ -197,16 +189,16 @@ export default function ReportForm() {
               key={urg}
               type="button"
               onClick={() => setUrgencia(urg)}
-              className={`py-3 px-3 rounded-xl text-sm font-semibold border-2 active:scale-[0.97] ${
+              className={`py-3 px-3 rounded-xl text-sm font-semibold border active:scale-[0.97] transition-all ${
                 urgencia === urg
                   ? urg === "Urgente"
-                    ? "bg-red-500 border-red-500 text-white shadow-lg shadow-red-500/30"
+                    ? "bg-red-500 border-red-500 text-white"
                     : urg === "Alta"
-                    ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-500/30"
+                    ? "bg-orange-500 border-orange-500 text-white"
                     : urg === "Media"
-                    ? "bg-amber-500 border-amber-500 text-white shadow-lg shadow-amber-500/30"
-                    : "bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-500/30"
-                  : "bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                    ? "bg-amber-500 border-amber-500 text-white"
+                    : "bg-emerald-500 border-emerald-500 text-white"
+                  : "bg-[var(--surface-raised)] border-[var(--border)] text-[var(--text-secondary)] hover:border-stone-300"
               }`}
             >
               {urg}
@@ -215,11 +207,10 @@ export default function ReportForm() {
         </div>
       </div>
 
-      {/* Técnico (solo Vitarooms) */}
       {categoria === "Vitarooms" && (
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
-            Técnico asignado
+          <label className="block text-xs font-semibold text-[var(--text-secondary)] mb-2">
+            Tecnico asignado
           </label>
           <div className="grid grid-cols-2 gap-2">
             {["Javier", "Otro"].map((tec) => (
@@ -227,10 +218,10 @@ export default function ReportForm() {
                 key={tec}
                 type="button"
                 onClick={() => setTecnicoAsignado(tecnicoAsignado === tec ? "" : tec)}
-                className={`py-3 px-3 rounded-xl text-sm font-semibold border-2 active:scale-[0.97] transition-all ${
+                className={`py-3 px-3 rounded-xl text-sm font-semibold border active:scale-[0.97] transition-all ${
                   tecnicoAsignado === tec
-                    ? "bg-teal-500 border-teal-500 text-white shadow-lg shadow-teal-500/30"
-                    : "bg-white border-slate-200 text-slate-700 hover:border-teal-300 hover:text-teal-700"
+                    ? "bg-teal-500 border-teal-500 text-white"
+                    : "bg-[var(--surface-raised)] border-[var(--border)] text-[var(--text-secondary)] hover:border-teal-300"
                 }`}
               >
                 {tec}
@@ -240,28 +231,25 @@ export default function ReportForm() {
         </div>
       )}
 
-      {/* Fotos */}
       <ImageUpload onImagesChange={setFotos} />
 
-      {/* Error */}
       {error && (
-        <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 text-red-700 text-sm flex items-center gap-3">
-          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-red-50 border border-red-100 rounded-xl p-3 text-red-600 text-sm flex items-center gap-2">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           {error}
         </div>
       )}
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={loading || !categoria || !edificio || !apartamento || !descripcion}
-        className="w-full bg-gradient-to-r from-slate-800 to-slate-700 text-white py-4 rounded-xl font-semibold hover:from-slate-700 hover:to-slate-600 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] shadow-lg shadow-slate-800/20"
+        className="w-full bg-[var(--primary)] text-white py-3.5 rounded-xl font-semibold hover:bg-[var(--primary-light)] disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all"
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">
-            <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
