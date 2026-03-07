@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       descripcion: body.descripcion,
       urgencia: body.urgencia,
       categoria: body.categoria,
-    }).catch(() => {});
+    }).catch((err) => console.error("Error sending notification email:", err));
 
     return NextResponse.json(incidencia, { status: 201 });
   } catch (error) {
