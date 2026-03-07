@@ -39,14 +39,14 @@ export async function POST(request: Request) {
 
     const incidencia = await createIncidencia(body);
 
-    // Send email notification to Romina (non-blocking)
-    sendIncidenciaNotification({
+    // Send email notification to Romina (await so Vercel doesn't kill it)
+    await sendIncidenciaNotification({
       edificio: body.edificio,
       apartamento: body.apartamento,
       descripcion: body.descripcion,
       urgencia: body.urgencia,
       categoria: body.categoria,
-    }).catch((err) => console.error("Error sending notification email:", err));
+    });
 
     return NextResponse.json(incidencia, { status: 201 });
   } catch (error) {
