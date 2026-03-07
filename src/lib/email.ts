@@ -13,8 +13,9 @@ export async function sendIncidenciaNotification(incidencia: {
 }) {
   const to = process.env.EMAIL_ROMINA || "romina@edmondvibes.com";
 
+  console.log(`[EMAIL] Sending incidencia notification to ${to} from ${FROM_EMAIL}, API key: ${process.env.RESEND_API_KEY ? "SET" : "MISSING"}`);
   try {
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM_EMAIL,
       to,
       subject: `Nueva incidencia: ${incidencia.edificio} - ${incidencia.apartamento}`,
@@ -39,8 +40,9 @@ export async function sendIncidenciaNotification(incidencia: {
         </div>
       `,
     });
+    console.log("[EMAIL] Sent successfully:", JSON.stringify(result));
   } catch (error) {
-    console.error("Error sending incidencia email:", error);
+    console.error("[EMAIL] Error sending incidencia email:", error);
   }
 }
 

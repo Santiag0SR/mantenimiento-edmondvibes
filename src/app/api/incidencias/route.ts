@@ -50,9 +50,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json(incidencia, { status: 201 });
   } catch (error) {
-    console.error("Error creating incidencia:", error);
+    const errMsg = error instanceof Error ? error.message : String(error);
+    console.error("Error creating incidencia:", errMsg, JSON.stringify(error, null, 2));
     return NextResponse.json(
-      { error: "Error al crear incidencia" },
+      { error: "Error al crear incidencia", details: errMsg },
       { status: 500 }
     );
   }

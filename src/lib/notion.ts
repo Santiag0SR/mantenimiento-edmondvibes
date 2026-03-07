@@ -127,9 +127,9 @@ export async function createIncidencia(input: IncidenciaInput): Promise<Incidenc
     "Incidencia": {
       title: [{ text: { content: titulo } }],
     },
-    "Edificio": input.categoria === "Turístico"
-      ? { select: { name: input.edificio } }
-      : { rich_text: [{ text: { content: input.edificio } }] },
+    "Edificio": input.categoria === "Vitarooms"
+      ? { rich_text: [{ text: { content: input.edificio } }] }
+      : { select: { name: input.edificio } },
     "Apartamento": {
       rich_text: [{ text: { content: input.apartamento } }],
     },
