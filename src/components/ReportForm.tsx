@@ -24,7 +24,12 @@ const categoriaConfig: Record<string, { bgActive: string; border: string; text: 
   },
 };
 
-export default function ReportForm() {
+interface ReportFormProps {
+  categoriasPermitidas?: Categoria[];
+}
+
+export default function ReportForm({ categoriasPermitidas }: ReportFormProps) {
+  const categoriasDisponibles = categoriasPermitidas || CATEGORIAS;
   const [categoria, setCategoria] = useState<Categoria | "">("");
   const [edificio, setEdificio] = useState("");
   const [apartamento, setApartamento] = useState("");
@@ -110,7 +115,7 @@ export default function ReportForm() {
           Categoria <span className="text-[var(--accent)]">*</span>
         </label>
         <div className="grid grid-cols-3 gap-2">
-          {CATEGORIAS.map((cat) => {
+          {categoriasDisponibles.map((cat) => {
             const config = categoriaConfig[cat] || categoriaConfig["Turístico"];
             const isActive = categoria === cat;
             return (

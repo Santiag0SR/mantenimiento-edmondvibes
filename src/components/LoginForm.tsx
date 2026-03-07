@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 interface LoginFormProps {
-  panel?: "admin" | "gestion" | "gobernanta";
+  panel?: "admin" | "gestion" | "gobernanta" | "administracion";
 }
 
 export default function LoginForm({ panel = "admin" }: LoginFormProps) {
@@ -41,8 +41,9 @@ export default function LoginForm({ panel = "admin" }: LoginFormProps) {
 
   const titles: Record<string, string> = {
     admin: "Técnico",
-    gestion: "Gestión",
+    gestion: "Gestión Operativa",
     gobernanta: "Gobernanta",
+    administracion: "Administración",
   };
 
   return (
@@ -129,6 +130,21 @@ export default function LoginForm({ panel = "admin" }: LoginFormProps) {
             ¿Eres técnico?{" "}
             <a href="/admin" className="hover:underline">
               Acceder como técnico
+            </a>
+            {" · "}
+            <a href="/administracion" className="hover:underline">
+              Administración
+            </a>
+          </p>
+        )}
+        {panel === "administracion" && (
+          <p className="text-center text-[11px] text-slate-400 mt-2">
+            <a href="/gestion" className="hover:underline">
+              Gestión operativa
+            </a>
+            {" · "}
+            <a href="/admin" className="hover:underline">
+              Técnico
             </a>
           </p>
         )}

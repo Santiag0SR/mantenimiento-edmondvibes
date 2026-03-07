@@ -30,8 +30,8 @@ const panels = [
   },
   {
     href: "/gestion",
-    title: "Gestión",
-    subtitle: "Supervisión, costes y métricas",
+    title: "Gestión Operativa",
+    subtitle: "Supervisión y seguimiento",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
         <path d="M3 3v18h18" />
@@ -40,6 +40,20 @@ const panels = [
     ),
     accent: "from-[#b8956a] to-[#9a7a54]",
     hoverBorder: "hover:border-[#d4b896]",
+  },
+  {
+    href: "/administracion",
+    title: "Administración",
+    subtitle: "Estadísticas, costes y aprobaciones",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
+      </svg>
+    ),
+    accent: "from-emerald-600 to-teal-600",
+    hoverBorder: "hover:border-emerald-200",
   },
   {
     href: "/gobernanta",

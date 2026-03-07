@@ -424,7 +424,12 @@ export default function MantenimientoList({ mantenimientos }: MantenimientoListP
                           {formatDate(m.fechaProgramada)}
                         </div>
                       ) : (
-                        <div className="text-xs text-[var(--text-muted)]">Sin fecha</div>
+                        <div className="text-xs text-[var(--text-muted)]">Sin fecha prog.</div>
+                      )}
+                      {m.fechaUltimaInspeccion && (
+                        <div className="text-[10px] text-[var(--text-muted)] mt-0.5">
+                          Últ. insp: {formatDate(m.fechaUltimaInspeccion)}
+                        </div>
                       )}
                       {m.tecnico && (
                         <div className="text-xs text-[var(--text-muted)] mt-0.5">{m.tecnico}</div>

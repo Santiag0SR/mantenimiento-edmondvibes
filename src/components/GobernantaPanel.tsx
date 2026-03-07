@@ -110,7 +110,7 @@ export default function GobernantaPanel() {
                 Reporta cualquier problema que encuentres al revisar los edificios.
               </p>
             </div>
-            <ReportForm />
+            <ReportForm categoriasPermitidas={["Turístico", "Corporativo"]} />
           </div>
         )}
 

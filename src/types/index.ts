@@ -130,6 +130,13 @@ export interface SolicitudCompra {
   links?: string;
   comentariosAprobacion?: string;
   solicitante?: string;
+  responsableAprobacion?: string;
+}
+
+export interface SolicitudCompraUpdate {
+  estado?: EstadoCompra;
+  comentariosAprobacion?: string;
+  presupuestoAprobado?: number;
 }
 
 export interface SolicitudCompraInput {

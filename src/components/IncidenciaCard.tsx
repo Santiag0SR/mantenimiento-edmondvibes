@@ -63,8 +63,13 @@ export default function IncidenciaCard({ incidencia, basePath = "/admin" }: Inci
           </div>
         </div>
 
+        {/* Title (Incidencia) */}
+        <h3 className="text-[13px] font-medium text-[var(--text)] mb-1 line-clamp-1">
+          {incidencia.titulo}
+        </h3>
+
         {/* Description */}
-        <p className="text-[13px] text-[var(--text-secondary)] line-clamp-2 mb-3 leading-relaxed">
+        <p className="text-[12px] text-[var(--text-muted)] line-clamp-2 mb-3 leading-relaxed">
           {incidencia.descripcion}
         </p>
 

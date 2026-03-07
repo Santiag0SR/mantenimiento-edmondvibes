@@ -8,6 +8,7 @@ interface AutoRefreshWrapperProps {
   initialIncidencias?: Incidencia[] | null;
   showDashboard?: boolean;
   basePath?: string;
+  tecnicoFilter?: string;
 }
 
 const REFRESH_INTERVAL = 30000; // 30 segundos
@@ -49,6 +50,7 @@ export default function AutoRefreshWrapper({
   initialIncidencias = null,
   showDashboard = false,
   basePath = "/admin",
+  tecnicoFilter,
 }: AutoRefreshWrapperProps) {
   const [incidencias, setIncidencias] = useState<Incidencia[] | null>(initialIncidencias);
   const [mantenimientos, setMantenimientos] = useState<Mantenimiento[] | null>(null);
@@ -56,13 +58,16 @@ export default function AutoRefreshWrapper({
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  const incUrl = tecnicoFilter ? `/api/incidencias?tecnico=${encodeURIComponent(tecnicoFilter)}` : "/api/incidencias";
+  const comprasUrl = basePath === "/gestion" ? "/api/gobernanta/compras" : "/api/gobernanta/compras?solicitante=Javier";
+
   const fetchAll = useCallback(async () => {
     try {
       setIsRefreshing(true);
       const [incRes, mantRes, comprasRes] = await Promise.all([
-        fetch("/api/incidencias"),
+        fetch(incUrl),
         fetch("/api/mantenimiento"),
-        fetch(basePath === "/gestion" ? "/api/gobernanta/compras" : "/api/gobernanta/compras?solicitante=Javier"),
+        fetch(comprasUrl),
       ]);
       if (incRes.ok) {
         setIncidencias(await incRes.json());
@@ -156,7 +161,7 @@ export default function AutoRefreshWrapper({
         compras={compras || []}
         showDashboard={showDashboard}
         basePath={basePath}
-        onComprasUpdated={() => fetch(basePath === "/gestion" ? "/api/gobernanta/compras" : "/api/gobernanta/compras?solicitante=Javier").then(r => r.ok ? r.json() : []).then(setCompras)}
+        onComprasUpdated={() => fetch(comprasUrl).then(r => r.ok ? r.json() : []).then(setCompras)}
       />
     </div>
   );

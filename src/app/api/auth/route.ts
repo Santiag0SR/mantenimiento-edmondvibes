@@ -7,6 +7,19 @@ export async function POST(request: Request) {
 
     const cookieStore = await cookies();
 
+    // Panel de administración
+    if (panel === "administracion") {
+      if (password === process.env.ADMINISTRACION_PASSWORD) {
+        cookieStore.set("user_role", "administracion", {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: 60 * 60 * 24 * 7,
+        });
+        return NextResponse.json({ success: true });
+      }
+    }
+
     // Panel de gestión
     if (panel === "gestion") {
       if (password === process.env.GESTION_PASSWORD) {

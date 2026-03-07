@@ -5,6 +5,7 @@ import type {
   SolicitudCompra,
   EstadoCompra,
   SolicitudCompraInput,
+  SolicitudCompraUpdate,
 } from "@/types";
 
 const notion = new Client({
@@ -79,25 +80,37 @@ function mapNotionToCompra(page: any): SolicitudCompra {
       props["Comentarios de aprobación"]?.rich_text?.[0]?.plain_text,
     solicitante:
       props["Empleado solicitante"]?.rich_text?.[0]?.plain_text,
+    responsableAprobacion:
+      props["Responsable de aprobación (jefe)"]?.select?.name ||
+      props["Responsable de aprobación (jefe)"]?.rich_text?.[0]?.plain_text,
   };
 }
 
-export async function getSolicitudesCompras(solicitante?: string): Promise<SolicitudCompra[]> {
+export async function getSolicitudesCompras(options?: { solicitante?: string; jefes?: string[] }): Promise<SolicitudCompra[]> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const query: any = {
     database_id: comprasDbId,
     sorts: [{ property: "Fecha de solicitud", direction: "descending" }],
   };
 
-  if (solicitante) {
+  if (options?.solicitante) {
     query.filter = {
       property: "Empleado solicitante",
-      rich_text: { equals: solicitante },
+      rich_text: { equals: options.solicitante },
     };
   }
 
   const res = await notion.databases.query(query);
-  return res.results.map(mapNotionToCompra);
+  let results = res.results.map(mapNotionToCompra);
+
+  if (options?.jefes && options.jefes.length > 0) {
+    const jefesLower = options.jefes.map((j) => j.toLowerCase());
+    results = results.filter(
+      (c) => c.responsableAprobacion && jefesLower.includes(c.responsableAprobacion.toLowerCase())
+    );
+  }
+
+  return results;
 }
 
 export async function createSolicitudCompra(
@@ -140,4 +153,26 @@ export async function createSolicitudCompra(
   });
 
   return mapNotionToCompra(page);
+}
+
+export async function updateSolicitudCompra(
+  id: string,
+  update: SolicitudCompraUpdate
+): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const properties: any = {};
+
+  if (update.estado) {
+    properties["Estado"] = { status: { name: update.estado } };
+  }
+  if (update.comentariosAprobacion !== undefined) {
+    properties["Comentarios de aprobación"] = {
+      rich_text: [{ text: { content: update.comentariosAprobacion } }],
+    };
+  }
+  if (update.presupuestoAprobado !== undefined) {
+    properties["Presupuesto aprobado"] = { number: update.presupuestoAprobado };
+  }
+
+  await notion.pages.update({ page_id: id, properties });
 }

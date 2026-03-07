@@ -34,7 +34,7 @@ export default async function GestionPage() {
             </div>
           </div>
           <h1 className="text-lg font-semibold text-white">
-            Gestión
+            Gestión Operativa
           </h1>
         </div>
       </div>
@@ -42,7 +42,7 @@ export default async function GestionPage() {
       {/* Content on white */}
       <div className="bg-[var(--surface)] rounded-t-3xl min-h-[calc(100vh-120px)] px-4 pt-5 pb-20">
         <div className="max-w-2xl mx-auto">
-          <AutoRefreshWrapper showDashboard={true} basePath="/gestion" />
+          <AutoRefreshWrapper basePath="/gestion" />
         </div>
       </div>
     </main>
