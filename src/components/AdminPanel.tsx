@@ -22,17 +22,20 @@ export default function AdminPanel() {
   const [view, setView] = useState<View>("dashboard");
   const [incidencias, setIncidencias] = useState<Incidencia[] | null>(null);
   const [compras, setCompras] = useState<SolicitudCompra[] | null>(null);
+  const [allCompras, setAllCompras] = useState<SolicitudCompra[] | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [comentario, setComentario] = useState<Record<string, string>>({});
 
   const fetchData = useCallback(async () => {
     try {
-      const [incRes, comprasRes] = await Promise.all([
+      const [incRes, comprasJefesRes, allComprasRes] = await Promise.all([
         fetch("/api/incidencias"),
         fetch(`/api/gobernanta/compras?jefes=${JEFES.join(",")}`),
+        fetch("/api/gobernanta/compras"),
       ]);
       if (incRes.ok) setIncidencias(await incRes.json());
-      if (comprasRes.ok) setCompras(await comprasRes.json());
+      if (comprasJefesRes.ok) setCompras(await comprasJefesRes.json());
+      if (allComprasRes.ok) setAllCompras(await allComprasRes.json());
     } catch (error) {
       console.error("Error fetching admin data:", error);
     }
@@ -102,7 +105,7 @@ export default function AdminPanel() {
       {view === "dashboard" && (
         <div className="animate-fadeIn">
           {incidencias ? (
-            <DashboardView incidencias={incidencias} />
+            <DashboardView incidencias={incidencias} compras={allCompras || []} />
           ) : (
             <div className="space-y-3 animate-pulse">
               {[1, 2, 3].map((i) => (

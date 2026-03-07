@@ -4,14 +4,14 @@ import { useState } from "react";
 import type { SolicitudCompra, SolicitudCompraInput } from "@/types";
 
 const EDIFICIOS_COMPRAS = [
-  "ABADA",
+  "Abada",
   "Juan Bravo",
-  "GMC",
-  "ANDRES OBISPO",
-  "MADERA",
-  "VILLANUEVA",
-  "FOMENTO",
-  "CONDE DE VILCHES",
+  "General Martinez Campos",
+  "Andres Obispo",
+  "Presidente Carmona 6",
+  "Juan Bautista de Toledo 17",
+  "Madera 29",
+  "Villanueva 13",
   "Mantenimiento",
 ];
 
