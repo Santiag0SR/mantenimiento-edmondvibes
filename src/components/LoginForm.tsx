@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 interface LoginFormProps {
-  panel?: "admin" | "gestion" | "gobernanta" | "administracion";
+  panel?: "admin" | "gestion" | "gobernanta" | "administracion" | "operativa";
 }
 
 export default function LoginForm({ panel = "admin" }: LoginFormProps) {
@@ -44,6 +44,7 @@ export default function LoginForm({ panel = "admin" }: LoginFormProps) {
     gestion: "Gestión Operativa",
     gobernanta: "Gobernanta",
     administracion: "Administración",
+    operativa: "Agenda Operativa",
   };
 
   return (

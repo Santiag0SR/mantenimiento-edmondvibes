@@ -46,6 +46,19 @@ export async function POST(request: Request) {
       }
     }
 
+    // Panel de operativa
+    if (panel === "operativa") {
+      if (password === process.env.OPERATIVA_PASSWORD) {
+        cookieStore.set("user_role", "operativa", {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          maxAge: 60 * 60 * 24 * 7,
+        });
+        return NextResponse.json({ success: true });
+      }
+    }
+
     // Panel de técnico (admin)
     if (panel === "admin" || !panel) {
       if (password === process.env.ADMIN_PASSWORD) {
