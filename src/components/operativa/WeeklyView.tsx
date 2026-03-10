@@ -6,6 +6,7 @@ import TaskCard from "./TaskCard";
 interface WeeklyViewProps {
   tasks: ProyectoSemanal[];
   onTaskClick: (task: ProyectoSemanal) => void;
+  newTaskIds: Set<string>;
 }
 
 function getWeekDates(): { label: string; dateStr: string; isToday: boolean }[] {
@@ -43,7 +44,7 @@ function getWeekRange(): { start: string; end: string } {
   };
 }
 
-export default function WeeklyView({ tasks, onTaskClick }: WeeklyViewProps) {
+export default function WeeklyView({ tasks, onTaskClick, newTaskIds }: WeeklyViewProps) {
   const weekDays = getWeekDates();
   const { start, end } = getWeekRange();
 
@@ -83,7 +84,7 @@ export default function WeeklyView({ tasks, onTaskClick }: WeeklyViewProps) {
           </div>
           <div className="flex flex-col gap-2">
             {overdueTasks.map((task) => (
-              <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} compact />
+              <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} compact isNew={newTaskIds.has(task.id)} />
             ))}
           </div>
         </div>
@@ -127,7 +128,7 @@ export default function WeeklyView({ tasks, onTaskClick }: WeeklyViewProps) {
           </h3>
           <div className="flex flex-col gap-2">
             {noDateTasks.map((task) => (
-              <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} compact />
+              <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} compact isNew={newTaskIds.has(task.id)} />
             ))}
           </div>
         </div>

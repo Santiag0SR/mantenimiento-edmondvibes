@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { ProyectoSemanal } from "./operativa/types";
 import KanbanView from "./operativa/KanbanView";
 import WeeklyView from "./operativa/WeeklyView";
@@ -16,6 +16,10 @@ const TEAM_MEMBERS = [
 
 type ViewMode = "kanban" | "semanal";
 
+function getSeenTasksKey(user: string) {
+  return `operativa_seen_tasks_${user}`;
+}
+
 export default function OperativaPanel() {
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [tasks, setTasks] = useState<ProyectoSemanal[]>([]);
@@ -24,8 +28,9 @@ export default function OperativaPanel() {
   const [selectedTask, setSelectedTask] = useState<ProyectoSemanal | null>(null);
   const [showArchived, setShowArchived] = useState(false);
   const [filterCategoria, setFilterCategoria] = useState<string | null>(null);
-  // taskId -> { date, note } for current user
   const [reminders, setReminders] = useState<Record<string, { date: string; note: string }>>({});
+  const [newTaskIds, setNewTaskIds] = useState<Set<string>>(new Set());
+  const isFirstLoad = useRef(true);
 
   // Load saved user
   useEffect(() => {
@@ -44,8 +49,28 @@ export default function OperativaPanel() {
       );
       if (res.ok) {
         const data = await res.json();
-        setTasks(data.proyectos);
+        const proyectos: ProyectoSemanal[] = data.proyectos;
+        setTasks(proyectos);
         setReminders(data.reminders || {});
+
+        // Detect new tasks
+        const seenKey = getSeenTasksKey(currentUser);
+        const seenRaw = localStorage.getItem(seenKey);
+        const seenIds: string[] = seenRaw ? JSON.parse(seenRaw) : [];
+
+        if (seenIds.length === 0 && isFirstLoad.current) {
+          // First time ever: mark all current tasks as seen (no spam)
+          localStorage.setItem(seenKey, JSON.stringify(proyectos.map((t) => t.id)));
+        } else {
+          const seenSet = new Set(seenIds);
+          const newIds = proyectos
+            .filter((t) => !seenSet.has(t.id))
+            .map((t) => t.id);
+          if (newIds.length > 0) {
+            setNewTaskIds(new Set(newIds));
+          }
+        }
+        isFirstLoad.current = false;
       }
     } catch (err) {
       console.error("Error fetching tasks:", err);
@@ -57,6 +82,14 @@ export default function OperativaPanel() {
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
+
+  const handleDismissNewTasks = () => {
+    if (!currentUser) return;
+    // Mark all current tasks as seen
+    const seenKey = getSeenTasksKey(currentUser);
+    localStorage.setItem(seenKey, JSON.stringify(tasks.map((t) => t.id)));
+    setNewTaskIds(new Set());
+  };
 
   const handleSelectUser = (name: string) => {
     setCurrentUser(name);
@@ -132,6 +165,9 @@ export default function OperativaPanel() {
     return reminder && reminder.date <= today;
   });
 
+  // New tasks
+  const newTasks = tasks.filter((t) => newTaskIds.has(t.id));
+
   // Get unique categories from tasks
   const allCategories = [...new Set(tasks.flatMap((t) => t.categoria))].sort();
 
@@ -166,6 +202,42 @@ export default function OperativaPanel() {
           Cambiar
         </button>
       </div>
+
+      {/* New tasks alert */}
+      {newTasks.length > 0 && (
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 mb-4 animate-fadeIn">
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-xs font-semibold text-blue-700">
+                {newTasks.length === 1 ? "Nueva tarea asignada" : `${newTasks.length} nuevas tareas asignadas`}
+              </span>
+            </div>
+            <button
+              onClick={handleDismissNewTasks}
+              className="text-[11px] text-blue-500 hover:text-blue-700 font-medium"
+            >
+              Marcar como vistas
+            </button>
+          </div>
+          <div className="flex flex-col gap-1">
+            {newTasks.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setSelectedTask(t)}
+                className="text-left text-xs text-blue-700 hover:text-blue-900 font-medium truncate"
+              >
+                &bull; {t.tarea}
+                {t.fechaTope && (
+                  <span className="text-blue-500 font-normal"> &mdash; Fecha tope: {new Date(t.fechaTope).toLocaleDateString("es-ES")}</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Quick stats */}
       <div className="grid grid-cols-3 gap-2 mb-4">
@@ -290,9 +362,10 @@ export default function OperativaPanel() {
           tasks={filteredTasks}
           onTaskClick={setSelectedTask}
           showArchived={showArchived}
+          newTaskIds={newTaskIds}
         />
       ) : (
-        <WeeklyView tasks={filteredTasks} onTaskClick={setSelectedTask} />
+        <WeeklyView tasks={filteredTasks} onTaskClick={setSelectedTask} newTaskIds={newTaskIds} />
       )}
 
       {/* Task detail modal */}

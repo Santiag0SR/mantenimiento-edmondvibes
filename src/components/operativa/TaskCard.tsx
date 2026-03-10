@@ -7,6 +7,7 @@ interface TaskCardProps {
   onClick: () => void;
   compact?: boolean;
   hasReminder?: boolean;
+  isNew?: boolean;
 }
 
 const CATEGORIA_COLORS: Record<string, string> = {
@@ -48,13 +49,15 @@ function getDeadlineInfo(fechaTope: string | null): {
   return { label: `${diffDays}d restantes`, className: "text-stone-500 bg-stone-50 border-stone-200", urgency: "ok" };
 }
 
-export default function TaskCard({ task, onClick, compact, hasReminder }: TaskCardProps) {
+export default function TaskCard({ task, onClick, compact, hasReminder, isNew }: TaskCardProps) {
   const deadline = getDeadlineInfo(task.fechaTope);
 
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left bg-white rounded-xl border border-stone-200 hover:border-stone-300 hover:shadow-md transition-all active:scale-[0.99] ${
+      className={`w-full text-left rounded-xl border hover:border-stone-300 hover:shadow-md transition-all active:scale-[0.99] ${
+        isNew ? "bg-blue-50/60 border-blue-200 ring-1 ring-blue-100" : "bg-white border-stone-200"
+      } ${
         deadline.urgency === "overdue" ? "border-l-4 border-l-red-400" :
         deadline.urgency === "urgent" ? "border-l-4 border-l-orange-400" :
         deadline.urgency === "soon" ? "border-l-4 border-l-amber-400" : ""
@@ -63,6 +66,11 @@ export default function TaskCard({ task, onClick, compact, hasReminder }: TaskCa
       <div className={compact ? "p-3" : "p-4"}>
         <div className="flex items-start justify-between gap-2 mb-2">
           <h3 className={`font-semibold text-stone-900 leading-tight ${compact ? "text-xs" : "text-sm"}`}>
+            {isNew && (
+              <span className="inline-block px-1.5 py-0.5 bg-blue-500 text-white text-[9px] font-bold rounded mr-1.5 uppercase align-middle">
+                Nueva
+              </span>
+            )}
             {task.tarea}
           </h3>
           {hasReminder && (

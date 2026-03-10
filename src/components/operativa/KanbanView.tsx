@@ -7,6 +7,7 @@ interface KanbanViewProps {
   tasks: ProyectoSemanal[];
   onTaskClick: (task: ProyectoSemanal) => void;
   showArchived: boolean;
+  newTaskIds: Set<string>;
 }
 
 const COLUMNS = [
@@ -16,7 +17,7 @@ const COLUMNS = [
   { key: "Finalizada", label: "Finalizada", color: "bg-green-500", dotColor: "bg-green-400" },
 ];
 
-export default function KanbanView({ tasks, onTaskClick, showArchived }: KanbanViewProps) {
+export default function KanbanView({ tasks, onTaskClick, showArchived, newTaskIds }: KanbanViewProps) {
   const columns = showArchived
     ? [...COLUMNS, { key: "Archivado", label: "Archivado", color: "bg-red-500", dotColor: "bg-red-400" }]
     : COLUMNS;
@@ -45,7 +46,7 @@ export default function KanbanView({ tasks, onTaskClick, showArchived }: KanbanV
                   </div>
                 ) : (
                   colTasks.map((task) => (
-                    <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} compact />
+                    <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} compact isNew={newTaskIds.has(task.id)} />
                   ))
                 )}
               </div>
@@ -72,7 +73,7 @@ export default function KanbanView({ tasks, onTaskClick, showArchived }: KanbanV
               </div>
               <div className="flex flex-col gap-2">
                 {colTasks.map((task) => (
-                  <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} />
+                  <TaskCard key={task.id} task={task} onClick={() => onTaskClick(task)} isNew={newTaskIds.has(task.id)} />
                 ))}
               </div>
             </div>
