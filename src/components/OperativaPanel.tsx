@@ -5,6 +5,7 @@ import { ProyectoSemanal } from "./operativa/types";
 import KanbanView from "./operativa/KanbanView";
 import WeeklyView from "./operativa/WeeklyView";
 import TaskDetail from "./operativa/TaskDetail";
+import NewTaskForm from "./operativa/NewTaskForm";
 
 const TEAM_MEMBERS = [
   "Bruno Olmo",
@@ -30,6 +31,7 @@ export default function OperativaPanel() {
   const [filterCategoria, setFilterCategoria] = useState<string | null>(null);
   const [reminders, setReminders] = useState<Record<string, { date: string; note: string }>>({});
   const [newTaskIds, setNewTaskIds] = useState<Set<string>>(new Set());
+  const [showNewForm, setShowNewForm] = useState(false);
   const isFirstLoad = useRef(true);
 
   // Load saved user
@@ -192,15 +194,26 @@ export default function OperativaPanel() {
             <p className="text-[11px] text-stone-400">Agenda Operativa</p>
           </div>
         </div>
-        <button
-          onClick={() => {
-            setCurrentUser(null);
-            localStorage.removeItem("operativa_user");
-          }}
-          className="text-xs text-stone-400 hover:text-stone-600 font-medium"
-        >
-          Cambiar
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowNewForm(true)}
+            className="flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Nuevo
+          </button>
+          <button
+            onClick={() => {
+              setCurrentUser(null);
+              localStorage.removeItem("operativa_user");
+            }}
+            className="text-xs text-stone-400 hover:text-stone-600 font-medium"
+          >
+            Cambiar
+          </button>
+        </div>
       </div>
 
       {/* New tasks alert */}
@@ -376,6 +389,15 @@ export default function OperativaPanel() {
           onClose={() => setSelectedTask(null)}
           onEstadoChange={handleEstadoChange}
           onReminderChange={fetchTasks}
+        />
+      )}
+
+      {/* New task form */}
+      {showNewForm && (
+        <NewTaskForm
+          currentUser={currentUser}
+          onClose={() => setShowNewForm(false)}
+          onCreated={fetchTasks}
         />
       )}
     </div>

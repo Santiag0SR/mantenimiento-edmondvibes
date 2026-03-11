@@ -128,6 +128,56 @@ export async function getProyectos(personNotionId?: string): Promise<ProyectoSem
   return response.results.map(pageToProyecto);
 }
 
+export interface CreateProyectoInput {
+  tarea: string;
+  descripcion?: string;
+  categoria?: string[];
+  fechaTope?: string;
+  encargadoIds: string[];
+}
+
+export async function createProyecto(input: CreateProyectoInput): Promise<ProyectoSemanal> {
+  const properties: Record<string, unknown> = {
+    Tarea: {
+      title: [{ text: { content: input.tarea } }],
+    },
+    Estado: {
+      select: { name: "Pendiente" },
+    },
+    "Fecha inicio": {
+      date: { start: new Date().toISOString().split("T")[0] },
+    },
+    "Encargado ": {
+      people: input.encargadoIds.map((id) => ({ id })),
+    },
+  };
+
+  if (input.descripcion) {
+    properties["Descripción"] = {
+      rich_text: [{ text: { content: input.descripcion } }],
+    };
+  }
+
+  if (input.categoria && input.categoria.length > 0) {
+    properties["Categoría"] = {
+      multi_select: input.categoria.map((name) => ({ name })),
+    };
+  }
+
+  if (input.fechaTope) {
+    properties["Fecha tope"] = {
+      date: { start: input.fechaTope },
+    };
+  }
+
+  const page = await notion.pages.create({
+    parent: { database_id: DATABASE_ID },
+    properties: properties as Parameters<typeof notion.pages.create>[0]["properties"],
+  });
+
+  return pageToProyecto(page);
+}
+
 export async function getProyecto(id: string): Promise<ProyectoSemanal> {
   const page = await notion.pages.retrieve({ page_id: id });
   return pageToProyecto(page);
