@@ -116,6 +116,24 @@ export default function OperativaPanel() {
     }
   };
 
+  const handleFechaTopeChange = async (taskId: string, fechaTope: string, oldFechaTope: string | null) => {
+    try {
+      const res = await fetch(`/api/operativa/tareas/${taskId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fechaTope, oldFechaTope, author: currentUser }),
+      });
+      if (res.ok) {
+        setTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, fechaTope: fechaTope || null } : t)));
+        if (selectedTask?.id === taskId) {
+          setSelectedTask((prev) => (prev ? { ...prev, fechaTope: fechaTope || null } : null));
+        }
+      }
+    } catch (err) {
+      console.error("Error updating fecha tope:", err);
+    }
+  };
+
   // User selector
   if (!currentUser) {
     return (
@@ -388,6 +406,7 @@ export default function OperativaPanel() {
           currentUser={currentUser}
           onClose={() => setSelectedTask(null)}
           onEstadoChange={handleEstadoChange}
+          onFechaTopeChange={handleFechaTopeChange}
           onReminderChange={fetchTasks}
         />
       )}

@@ -9,6 +9,7 @@ interface TaskDetailProps {
   currentUser: string;
   onClose: () => void;
   onEstadoChange: (taskId: string, estado: string) => void;
+  onFechaTopeChange: (taskId: string, fechaTope: string, oldFechaTope: string | null) => void;
   onReminderChange: () => void;
 }
 
@@ -22,7 +23,7 @@ const ESTADO_COLORS: Record<string, string> = {
   Archivado: "bg-red-100 text-red-600 border-red-200",
 };
 
-export default function TaskDetail({ task, currentUser, onClose, onEstadoChange, onReminderChange }: TaskDetailProps) {
+export default function TaskDetail({ task, currentUser, onClose, onEstadoChange, onFechaTopeChange, onReminderChange }: TaskDetailProps) {
   const [updates, setUpdates] = useState<TaskUpdate[]>([]);
   const [reminders, setReminders] = useState<TaskReminder[]>([]);
   const [newUpdate, setNewUpdate] = useState("");
@@ -180,19 +181,22 @@ export default function TaskDetail({ task, currentUser, onClose, onEstadoChange,
             </div>
           )}
 
-          <div className="flex gap-4">
+          <div className="flex gap-4 items-end">
             {task.fechaInicio && (
               <div>
                 <h4 className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider mb-1">Inicio</h4>
                 <p className="text-sm text-stone-700">{new Date(task.fechaInicio).toLocaleDateString("es-ES")}</p>
               </div>
             )}
-            {task.fechaTope && (
-              <div>
-                <h4 className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider mb-1">Fecha tope</h4>
-                <p className="text-sm text-stone-700">{new Date(task.fechaTope).toLocaleDateString("es-ES")}</p>
-              </div>
-            )}
+            <div className="flex-1">
+              <h4 className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider mb-1">Fecha tope</h4>
+              <input
+                type="date"
+                value={task.fechaTope || ""}
+                onChange={(e) => onFechaTopeChange(task.id, e.target.value, task.fechaTope)}
+                className="w-full px-2.5 py-1 text-sm border border-stone-200 rounded-lg bg-stone-50 text-stone-700 focus:ring-2 focus:ring-blue-300 focus:border-blue-300"
+              />
+            </div>
           </div>
 
           {task.encargados.length > 0 && (

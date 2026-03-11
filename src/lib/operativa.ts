@@ -194,6 +194,17 @@ export async function updateProyectoEstado(id: string, estado: string): Promise<
   });
 }
 
+export async function updateProyectoFechaTope(id: string, fechaTope: string | null): Promise<void> {
+  await notion.pages.update({
+    page_id: id,
+    properties: {
+      "Fecha tope": {
+        date: fechaTope ? { start: fechaTope } : null,
+      },
+    },
+  });
+}
+
 export async function getTaskUpdatesAndReminders(pageId: string): Promise<{
   updates: TaskUpdate[];
   reminders: TaskReminder[];

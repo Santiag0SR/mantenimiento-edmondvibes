@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getProyecto, updateProyectoEstado } from "@/lib/operativa";
+import { getProyecto, updateProyectoEstado, updateProyectoFechaTope, addTaskUpdate } from "@/lib/operativa";
 
 export async function GET(
   _request: Request,
@@ -24,10 +24,27 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params;
-    const { estado } = await request.json();
+    const body = await request.json();
 
-    if (estado) {
-      await updateProyectoEstado(id, estado);
+    if (body.estado) {
+      await updateProyectoEstado(id, body.estado);
+    }
+
+    if (body.fechaTope !== undefined) {
+      const oldFechaTope = body.oldFechaTope;
+      await updateProyectoFechaTope(id, body.fechaTope || null);
+
+      // Log the change as an update
+      if (body.author) {
+        const formatDate = (d: string) => new Date(d).toLocaleDateString("es-ES");
+        const oldLabel = oldFechaTope ? formatDate(oldFechaTope) : "sin fecha";
+        const newLabel = body.fechaTope ? formatDate(body.fechaTope) : "sin fecha";
+        await addTaskUpdate(
+          id,
+          `Fecha tope cambiada: ${oldLabel} → ${newLabel}`,
+          body.author
+        );
+      }
     }
 
     return NextResponse.json({ success: true });
